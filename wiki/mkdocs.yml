@@ -1,0 +1,178 @@
+site_name: brennan.page Wiki
+site_description: Documentation for brennan.page homelab infrastructure
+site_author: Brennan Brown
+site_url: https://wiki.brennan.page
+
+# Repository
+repo_name: brennanbrown/brennan.page
+repo_url: https://github.com/brennanbrown/brennan.page
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+  palette:
+    # Light mode
+    - scheme: default
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: JetBrains Mono
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+  - git-revision-date-localized:
+      type: datetime
+      timezone: America/Toronto
+  - minify:
+      minify_html: true
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      title: Table of Contents
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: brennanbrown
+      repo: brennan.page
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/mkdocs.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Navigation structure
+nav:
+  - Home:
+    - index.md
+    - Overview: home/overview.md
+    - Getting Started: home/getting-started.md
+    - Architecture: home/architecture.md
+  - Services:
+    - services/index.md
+    - Caddy: services/caddy.md
+    - Portainer: services/portainer.md
+    - Glances: services/glances.md
+    - FileBrowser: services/filebrowser.md
+    - WriteFreely: services/writefreely.md
+    - Flarum: services/flarum.md
+    - Vikunja: services/vikunja.md
+    - HedgeDoc: services/hedgedoc.md
+    - FreshRSS: services/freshrss.md
+    - Linkding: services/linkding.md
+    - Navidrome: services/navidrome.md
+    - Plik: services/plik.md
+    - Rallly: services/rallly.md
+  - Deployments:
+    - deployments/index.md
+    - Phase 1 - Foundation: deployments/phase-1.md
+    - Phase 2 - Monitoring: deployments/phase-2.md
+    - Phase 3 - Productivity: deployments/phase-3.md
+    - Phase 4 - Community: deployments/phase-4.md
+    - Phase 5 - Utilities: deployments/phase-5.md
+  - Operations:
+    - operations/index.md
+    - Daily Checks: operations/daily-checks.md
+    - Weekly Maintenance: operations/weekly-maintenance.md
+    - Monthly Tasks: operations/monthly-tasks.md
+    - Backup Procedures: operations/backup-procedures.md
+    - Security: operations/security.md
+  - Troubleshooting:
+    - troubleshooting/index.md
+    - Common Issues: troubleshooting/common-issues.md
+    - Service Recovery: troubleshooting/service-recovery.md
+    - Performance Tuning: troubleshooting/performance-tuning.md
+    - Disaster Recovery: troubleshooting/disaster-recovery.md
+  - Reference:
+    - reference/index.md
+    - SSH Commands: reference/ssh-commands.md
+    - Docker Commands: reference/docker-commands.md
+    - Network Configuration: reference/network-config.md
+    - Environment Variables: reference/environment-variables.md
+    - Port Mappings: reference/port-mappings.md
+  - About:
+    - about/index.md
+    - Technology Stack: about/tech-stack.md
+    - Design Principles: about/design-principles.md
+    - Contributing: about/contributing.md
+    - License: about/license.md
+
+# Additional configuration
+extra:
+  analytics:
+    provider: custom
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/brennanbrown
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/brennanb
+  version:
+    provider: mike
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js

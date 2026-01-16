@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - filebrowser_data:/srv
+      - filebrowser_config:/config
+      - /opt/homelab:/opt/homelab:ro
+    environment:
+      - FB_BASEURL=/files
+    networks:
+      - caddy
+    mem_limit: 50m
+    mem_reservation: 30m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  filebrowser_data:
+  filebrowser_config:
+
+networks:
+  caddy:
+    external: true

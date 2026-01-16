@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>brennan.page - Homelab Infrastructure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .service-card {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-2px);
+            border-color: #ff6b35;
+        }
+        
+        .service-name {
+            font-size: 1.3rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-url {
+            color: #4a9eff;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .service-url:hover {
+            text-decoration: underline;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .status.online {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .status.offline {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .system-info {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .system-info h2 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+        
+        .system-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            color: #4a9eff;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            border-top: 1px solid #444;
+            padding-top: 2rem;
+        }
+        
+        a {
+            color: #4a9eff;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>brennan.page</h1>
+            <div class="subtitle">Self-hosted homelab infrastructure</div>
+        </header>
+        
+        <div class="system-info">
+            <h2>System Status</h2>
+            <div class="system-stats">
+                <div class="stat">
+                    <div class="stat-value">2GB</div>
+                    <div class="stat-label">Total RAM</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1CPU</div>
+                    <div class="stat-label">Processor</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">70GB</div>
+                    <div class="stat-label">Storage</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">Ubuntu 24.04</div>
+                    <div class="stat-label">Operating System</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-grid">
+            <div class="service-card">
+                <div class="service-name">🐋 Portainer</div>
+                <a href="https://docker.brennan.page" class="service-url" target="_blank">docker.brennan.page</a>
+                <div class="status online">ONLINE</div>
+                <p>Docker management interface</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-name">📊 Glances</div>
+                <a href="https://monitor.brennan.page" class="service-url" target="_blank">monitor.brennan.page</a>
+                <div class="status online">ONLINE</div>
+                <p>System monitoring dashboard</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-name">📁 FileBrowser</div>
+                <a href="https://files.brennan.page" class="service-url" target="_blank">files.brennan.page</a>
+                <div class="status online">ONLINE</div>
+                <p>File management interface</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-name">📚 Wiki</div>
+                <a href="https://wiki.brennan.page" class="service-url" target="_blank">wiki.brennan.page</a>
+                <div class="status offline">COMING SOON</div>
+                <p>Documentation and knowledge base</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Powered by <a href="https://caddyserver.com" target="_blank">Caddy</a> • 
+               Built with <a href="https://www.docker.com" target="_blank">Docker</a> • 
+               Managed via <a href="https://github.com/brennanbrown/brennan.page" target="_blank">Git</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

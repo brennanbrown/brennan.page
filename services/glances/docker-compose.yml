@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  glances:
+    image: nicolargo/glances:latest
+    container_name: glances
+    restart: unless-stopped
+    pid: host
+    environment:
+      - "GLANCES_OPT=--webserver"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    networks:
+      - monitoring
+      - caddy
+    mem_limit: 50m
+    mem_reservation: 30m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  monitoring:
+    external: true
+  caddy:
+    external: true
