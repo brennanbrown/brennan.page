@@ -34,8 +34,8 @@ services:
     networks:
       - internal_db
       - caddy
-    mem_limit: 128m
-    mem_reservation: 64m
+    mem_limit: 256m
+    mem_reservation: 128m
     logging:
       driver: "json-file"
       options:
