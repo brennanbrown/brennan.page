@@ -5,6 +5,8 @@
         output file /var/log/caddy/access.log
         format console
     }
+    
+    # Global favicon handler for all domains
 }
 
 # Compression snippet for reuse
@@ -22,10 +24,15 @@
     }
 }
 
+# Favicon serving for all domains
+(favicon) {
+}
+
 # Root domain - landing page
 brennan.page {
     import compression
     import security
+    import favicon
     
     root * /var/www/brennan.page
     file_server
@@ -38,6 +45,7 @@ brennan.page {
 wiki.brennan.page {
     import compression
     import security
+    import favicon
     
     root * /opt/homelab/wiki
     file_server
@@ -51,7 +59,7 @@ docker.brennan.page {
     import compression
     import security
     
-    reverse_proxy portainer:9000
+reverse_proxy portainer:9000
     handle_errors {
         respond "Docker management unavailable" 503
     }
@@ -62,7 +70,7 @@ monitor.brennan.page {
     import compression
     import security
     
-    reverse_proxy monitor:80
+reverse_proxy monitor:80
     handle_errors {
         respond "Monitoring service unavailable" 503
     }
@@ -73,7 +81,7 @@ files.brennan.page {
     import compression
     import security
     
-    reverse_proxy filebrowser:80
+reverse_proxy filebrowser:80
     handle_errors {
         respond "File browser unavailable" 503
     }
@@ -84,7 +92,7 @@ tasks.brennan.page {
     import compression
     import security
     
-    reverse_proxy vikunja:3456
+reverse_proxy vikunja:3456
     handle_errors {
         respond "Task management service unavailable" 503
     }
@@ -95,7 +103,7 @@ notes.brennan.page {
     import compression
     import security
     
-    reverse_proxy hedgedoc:3000
+reverse_proxy hedgedoc:3000
     handle_errors {
         respond "Notes service unavailable" 503
     }
@@ -106,7 +114,7 @@ bookmarks.brennan.page {
     import compression
     import security
     
-    reverse_proxy linkding:9090
+reverse_proxy linkding:9090
     handle_errors {
         respond "Bookmark service unavailable" 503
     }
@@ -117,40 +125,40 @@ music.brennan.page {
     import compression
     import security
     
-    reverse_proxy navidrome:4533
+reverse_proxy navidrome:4533
     handle_errors {
         respond "Music service unavailable" 503
     }
 }
 
-# Blog platform (future)
+# Blog platform
 blog.brennan.page {
     import compression
     import security
     
-    reverse_proxy writefreely:80
+reverse_proxy writefreely:80
     handle_errors {
         respond "Blog service unavailable" 503
     }
 }
 
-# Forum platform (future)
+# Forum platform
 forum.brennan.page {
     import compression
     import security
     
-    reverse_proxy flarum:8080
+reverse_proxy flarum:8080
     handle_errors {
         respond "Forum service unavailable" 503
     }
 }
 
-# RSS reader (future)
+# RSS reader
 rss.brennan.page {
     import compression
     import security
     
-    reverse_proxy freshrss:80
+reverse_proxy freshrss:80
     handle_errors {
         respond "RSS service unavailable" 503
     }
