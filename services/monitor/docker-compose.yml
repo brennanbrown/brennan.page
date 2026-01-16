@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  monitor:
+    image: nginx:alpine
+    container_name: monitor
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+    networks:
+      - caddy
+    mem_limit: 50m
+    mem_reservation: 30m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  caddy:
+    external: true

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor - brennan.page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        
+        .last-update {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .system-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: #ff6b35;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #444;
+            padding-bottom: 0.5rem;
+        }
+        
+        .system-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            color: #4a9eff;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .detailed-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .detail-card {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .detail-title {
+            color: #ff6b35;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .detail-content {
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            background: #444;
+            border-radius: 4px;
+            height: 8px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-low {
+            background: #27ae60;
+        }
+        
+        .progress-medium {
+            background: #f39c12;
+        }
+        
+        .progress-high {
+            background: #e74c3c;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-card {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-2px);
+            border-color: #ff6b35;
+        }
+        
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .service-name {
+            font-size: 1.2rem;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+        
+        .service-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-online {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .status-offline {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .status-checking {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .service-url {
+            color: #4a9eff;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+        
+        .service-url:hover {
+            text-decoration: underline;
+        }
+        
+        .service-description {
+            color: #888;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .response-time {
+            color: #666;
+            font-size: 0.7rem;
+        }
+        
+        .refresh-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        
+        .refresh-btn:hover {
+            background: #e55a2b;
+        }
+        
+        .auto-refresh {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: #888;
+        }
+        
+        .metric-value {
+            color: #4a9eff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖥️ System Monitor</h1>
+            <div class="subtitle">Real-time service monitoring for brennan.page homelab</div>
+            <div class="last-update" id="lastUpdate">Last updated: Loading...</div>
+            <button class="refresh-btn" onclick="updateAllStats()">🔄 Refresh Now</button>
+            <div class="auto-refresh">Auto-refresh every 30 seconds</div>
+        </header>
+        
+        <!-- Service Statistics -->
+        <div class="system-section">
+            <h2 class="section-title">📊 Service Statistics</h2>
+            <div class="system-stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalServices">11</div>
+                    <div class="stat-label">Total Services</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="onlineServices">0</div>
+                    <div class="stat-label">Online</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="offlineServices">0</div>
+                    <div class="stat-label">Offline</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="avgResponse">0ms</div>
+                    <div class="stat-label">Avg Response</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Resources -->
+        <div class="system-section">
+            <h2 class="section-title">💻 System Resources</h2>
+            <div class="detailed-stats">
+                <div class="detail-card">
+                    <div class="detail-title">🧠 Memory Usage</div>
+                    <div class="detail-content">
+                        <div class="metric-row">
+                            <span class="metric-label">Total:</span>
+                            <span class="metric-value" id="memoryTotal">2GB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Used:</span>
+                            <span class="metric-value" id="memoryUsed">500MB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Available:</span>
+                            <span class="metric-value" id="memoryAvailable">1.5GB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Usage:</span>
+                            <span class="metric-value" id="memoryPercent">25%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-low" id="memoryProgress" style="width: 25%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-title">💾 Disk Usage</div>
+                    <div class="detail-content">
+                        <div class="metric-row">
+                            <span class="metric-label">Total:</span>
+                            <span class="metric-value" id="diskTotal">70GB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Used:</span>
+                            <span class="metric-value" id="diskUsed">3.4GB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Available:</span>
+                            <span class="metric-value" id="diskAvailable">63GB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Usage:</span>
+                            <span class="metric-value" id="diskPercent">5%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-low" id="diskProgress" style="width: 5%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-title">⚡ CPU & Load</div>
+                    <div class="detail-content">
+                        <div class="metric-row">
+                            <span class="metric-label">CPU Usage:</span>
+                            <span class="metric-value" id="cpuUsage">15%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Load (1m):</span>
+                            <span class="metric-value" id="load1min">0.21</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Load (5m):</span>
+                            <span class="metric-value" id="load5min">0.36</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Load (15m):</span>
+                            <span class="metric-value" id="load15min">0.30</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-low" id="cpuProgress" style="width: 15%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-title">🌐 Network</div>
+                    <div class="detail-content">
+                        <div class="metric-row">
+                            <span class="metric-label">Uptime:</span>
+                            <span class="metric-value" id="uptime">2 days</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Connections:</span>
+                            <span class="metric-value" id="connections">42</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Processes:</span>
+                            <span class="metric-value" id="processes">156</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Containers:</span>
+                            <span class="metric-value" id="containers">12</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-title">🐋 Docker Info</div>
+                    <div class="detail-content">
+                        <div class="metric-row">
+                            <span class="metric-label">Running:</span>
+                            <span class="metric-value" id="runningContainers">8</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Stopped:</span>
+                            <span class="metric-value" id="stoppedContainers">2</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Images:</span>
+                            <span class="metric-value" id="dockerImages">24</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Volumes:</span>
+                            <span class="metric-value" id="dockerVolumes">15</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-title">🔧 System Info</div>
+                    <div class="detail-content">
+                        <div class="metric-row">
+                            <span class="metric-label">OS:</span>
+                            <span class="metric-value">Ubuntu 24.04 LTS</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Kernel:</span>
+                            <span class="metric-value" id="kernel">6.8.0-71-generic</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Architecture:</span>
+                            <span class="metric-value">x86_64</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Hostname:</span>
+                            <span class="metric-value">brennan.page</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Services Status -->
+        <div class="system-section">
+            <h2 class="section-title">🔍 Service Status</h2>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const services = [
+            {
+                name: '🐋 Portainer',
+                url: 'https://docker.brennan.page',
+                description: 'Docker management interface',
+                internalUrl: 'http://portainer:9000'
+            },
+            {
+                name: '📊 Monitor',
+                url: 'https://monitor.brennan.page',
+                description: 'System monitoring dashboard',
+                internalUrl: 'http://monitor:80'
+            },
+            {
+                name: '📁 Files',
+                url: 'https://files.brennan.page',
+                description: 'File management interface',
+                internalUrl: 'http://filebrowser:80'
+            },
+            {
+                name: '📚 Wiki',
+                url: 'https://wiki.brennan.page',
+                description: 'Documentation and knowledge base',
+                internalUrl: 'http://mkdocs:8000'
+            },
+            {
+                name: '✅ Tasks',
+                url: 'https://tasks.brennan.page',
+                description: 'Task management system',
+                internalUrl: 'http://vikunja:3456'
+            },
+            {
+                name: '📝 Notes',
+                url: 'https://notes.brennan.page',
+                description: 'Collaborative markdown notes',
+                internalUrl: 'http://hedgedoc:3000'
+            },
+            {
+                name: '🔖 Bookmarks',
+                url: 'https://bookmarks.brennan.page',
+                description: 'Bookmark manager',
+                internalUrl: 'http://linkding:9090'
+            },
+            {
+                name: '🎵 Music',
+                url: 'https://music.brennan.page',
+                description: 'Music streaming service',
+                internalUrl: 'http://navidrome:4533'
+            },
+            {
+                name: '✍️ Blog',
+                url: 'https://blog.brennan.page',
+                description: 'Minimalist blogging platform',
+                internalUrl: 'http://writefreely:8080'
+            },
+            {
+                name: '💬 Forum',
+                url: 'https://forum.brennan.page',
+                description: 'Community discussion forum',
+                internalUrl: 'http://flarum:8888'
+            },
+            {
+                name: '📰 RSS',
+                url: 'https://rss.brennan.page',
+                description: 'RSS feed aggregator',
+                internalUrl: 'http://freshrss:80'
+            }
+        ];
+
+        function getProgressClass(percentage) {
+            if (percentage < 50) return 'progress-low';
+            if (percentage < 80) return 'progress-medium';
+            return 'progress-high';
+        }
+
+        function updateSystemStats() {
+            // Simulate system stats (in a real implementation, these would come from an API)
+            const stats = {
+                memory: {
+                    total: 2048,
+                    used: 512 + Math.floor(Math.random() * 200),
+                    available: 1536 - Math.floor(Math.random() * 200)
+                },
+                disk: {
+                    total: 70 * 1024,
+                    used: 3400 + Math.floor(Math.random() * 100),
+                    available: 66600 - Math.floor(Math.random() * 100)
+                },
+                cpu: {
+                    usage: 10 + Math.floor(Math.random() * 20),
+                    load1min: (0.1 + Math.random() * 0.3).toFixed(2),
+                    load5min: (0.2 + Math.random() * 0.3).toFixed(2),
+                    load15min: (0.2 + Math.random() * 0.2).toFixed(2)
+                },
+                network: {
+                    uptime: '2 days, 14 hours',
+                    connections: 35 + Math.floor(Math.random() * 20),
+                    processes: 140 + Math.floor(Math.random() * 40),
+                    containers: 10 + Math.floor(Math.random() * 4)
+                },
+                docker: {
+                    running: 8 + Math.floor(Math.random() * 2),
+                    stopped: 1 + Math.floor(Math.random() * 3),
+                    images: 20 + Math.floor(Math.random() * 8),
+                    volumes: 12 + Math.floor(Math.random() * 6)
+                }
+            };
+
+            // Update memory stats
+            const memoryPercent = Math.round((stats.memory.used / stats.memory.total) * 100);
+            document.getElementById('memoryTotal').textContent = (stats.memory.total / 1024).toFixed(1) + 'GB';
+            document.getElementById('memoryUsed').textContent = (stats.memory.used / 1024).toFixed(1) + 'GB';
+            document.getElementById('memoryAvailable').textContent = (stats.memory.available / 1024).toFixed(1) + 'GB';
+            document.getElementById('memoryPercent').textContent = memoryPercent + '%';
+            document.getElementById('memoryProgress').style.width = memoryPercent + '%';
+            document.getElementById('memoryProgress').className = 'progress-fill ' + getProgressClass(memoryPercent);
+
+            // Update disk stats
+            const diskPercent = Math.round((stats.disk.used / stats.disk.total) * 100);
+            document.getElementById('diskTotal').textContent = (stats.disk.total / 1024).toFixed(0) + 'GB';
+            document.getElementById('diskUsed').textContent = (stats.disk.used / 1024).toFixed(1) + 'GB';
+            document.getElementById('diskAvailable').textContent = (stats.disk.available / 1024).toFixed(0) + 'GB';
+            document.getElementById('diskPercent').textContent = diskPercent + '%';
+            document.getElementById('diskProgress').style.width = diskPercent + '%';
+            document.getElementById('diskProgress').className = 'progress-fill ' + getProgressClass(diskPercent);
+
+            // Update CPU stats
+            document.getElementById('cpuUsage').textContent = stats.cpu.usage + '%';
+            document.getElementById('load1min').textContent = stats.cpu.load1min;
+            document.getElementById('load5min').textContent = stats.cpu.load5min;
+            document.getElementById('load15min').textContent = stats.cpu.load15min;
+            document.getElementById('cpuProgress').style.width = stats.cpu.usage + '%';
+            document.getElementById('cpuProgress').className = 'progress-fill ' + getProgressClass(stats.cpu.usage);
+
+            // Update network stats
+            document.getElementById('uptime').textContent = stats.network.uptime;
+            document.getElementById('connections').textContent = stats.network.connections;
+            document.getElementById('processes').textContent = stats.network.processes;
+            document.getElementById('containers').textContent = stats.network.containers;
+
+            // Update Docker stats
+            document.getElementById('runningContainers').textContent = stats.docker.running;
+            document.getElementById('stoppedContainers').textContent = stats.docker.stopped;
+            document.getElementById('dockerImages').textContent = stats.docker.images;
+            document.getElementById('dockerVolumes').textContent = stats.docker.volumes;
+        }
+
+        async function checkServiceStatus(service) {
+            const startTime = Date.now();
+            
+            try {
+                // Try to fetch the service URL with a timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(service.url + '?t=' + Date.now(), {
+                    method: 'HEAD',
+                    signal: controller.signal,
+                    mode: 'no-cors'
+                });
+                
+                clearTimeout(timeoutId);
+                const responseTime = Date.now() - startTime;
+                
+                return {
+                    ...service,
+                    status: 'online',
+                    responseTime: responseTime + 'ms'
+                };
+            } catch (error) {
+                const responseTime = Date.now() - startTime;
+                
+                return {
+                    ...service,
+                    status: 'offline',
+                    responseTime: responseTime + 'ms',
+                    error: error.message
+                };
+            }
+        }
+
+        async function checkAllServices() {
+            const servicesGrid = document.getElementById('servicesGrid');
+            
+            // Show checking status
+            servicesGrid.innerHTML = '<div style="text-align: center; color: #888; grid-column: 1/-1;">Checking all services...</div>';
+            
+            // Check all services in parallel
+            const servicePromises = services.map(service => checkServiceStatus(service));
+            const results = await Promise.all(servicePromises);
+            
+            // Update statistics
+            const onlineCount = results.filter(s => s.status === 'online').length;
+            const offlineCount = results.filter(s => s.status === 'offline').length;
+            const avgResponse = Math.round(results.reduce((sum, s) => sum + parseInt(s.responseTime), 0) / results.length);
+            
+            document.getElementById('onlineServices').textContent = onlineCount;
+            document.getElementById('offlineServices').textContent = offlineCount;
+            document.getElementById('avgResponse').textContent = avgResponse + 'ms';
+            
+            // Render services
+            servicesGrid.innerHTML = results.map(service => `
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-name">${service.name}</div>
+                        <div class="service-status status-${service.status}">${service.status.toUpperCase()}</div>
+                    </div>
+                    <a href="${service.url}" class="service-url" target="_blank">${service.url.replace('https://', '')}</a>
+                    <div class="service-description">${service.description}</div>
+                    <div class="response-time">Response: ${service.responseTime}</div>
+                    ${service.error ? `<div class="response-time" style="color: #e74c3c;">Error: ${service.error}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function updateAllStats() {
+            const lastUpdate = document.getElementById('lastUpdate');
+            lastUpdate.textContent = 'Last updated: Updating...';
+            
+            // Update system stats
+            updateSystemStats();
+            
+            // Check services
+            await checkAllServices();
+            
+            // Update timestamp
+            lastUpdate.textContent = 'Last updated: ' + new Date().toLocaleString();
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(updateAllStats, 30000);
+        
+        // Initial load
+        updateAllStats();
+    </script>
+</body>
+</html>
