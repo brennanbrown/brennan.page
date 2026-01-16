@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  linkding:
+    image: sissbruecker/linkding:latest
+    container_name: linkding
+    restart: unless-stopped
+    environment:
+      - LD_DB_ENGINE=postgres
+      - LD_DB_HOST=postgresql
+      - LD_DB_PORT=5432
+      - LD_DB_NAME=linkding
+      - LD_DB_USER=linkding
+      - LD_DB_PASSWORD=linkding_password
+      - LD_SUPERUSER_NAME=admin
+      - LD_SUPERUSER_PASSWORD=linkding_admin_password_2026
+      - LD_REQUEST_TIMEOUT=30
+      - LD_DATA_DIR=/data
+      - LD_ENABLE_AUTH_PROXY=true
+      - LD_AUTH_PROXY_USERNAME_HEADER=X-Username
+      - LD_AUTH_PROXY_LOGOUT_URL=https://bookmarks.brennan.page
+      - LD_ENABLE_LOGIN_FORM=true
+      - LD_DISABLE_BACKGROUND_TASKS=false
+      - LD_ENABLE_URL_VALIDATION=true
+      - LD_ENABLE_FAVICONS=true
+      - LD_ENABLE_AUTOMATIC_TAGGING=true
+      - LD_ENABLE_SHARING=true
+      - LD_ENABLE_PUBLIC_SHARING=true
+      - LD_ENABLE_API_TOKENS=true
+      - LD_ENABLE_REGISTRATION=false
+      - LD_ENABLE_FRONTEND_REGISTRATION=false
+    volumes:
+      - linkding_data:/data
+    networks:
+      - internal_db
+      - caddy
+    mem_limit: 128m
+    mem_reservation: 64m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  linkding_data:
+    driver: local
+
+networks:
+  internal_db:
+    external: true
+  caddy:
+    external: true

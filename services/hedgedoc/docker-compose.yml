@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  hedgedoc:
+    image: quay.io/hedgedoc/hedgedoc:latest
+    container_name: hedgedoc
+    restart: unless-stopped
+    environment:
+      - CMD_DB_URL=postgres://hedgedoc:hedgedoc_password@postgresql:5432/hedgedoc
+      - CMD_DOMAIN=notes.brennan.page
+      - CMD_URL_ADDPORT=false
+      - CMD_PORT=3000
+      - CMD_PROTOCOL_USESSL=true
+      - CMD_ALLOW_ANONYMOUS=true
+      - CMD_ALLOW_ANONYMOUS_EDITS=true
+      - CMD_ALLOW_FREEURL=true
+      - CMD_DEFAULT_PERMISSION=editable
+      - CMD_SESSION_SECRET=hedgedoc_session_secret_2026_secure_random_string
+      - CMD_OAUTH2_BASEURL=https://notes.brennan.page
+      - CMD_OAUTH2_CLIENT_ID=hedgedoc
+      - CMD_OAUTH2_AUTHORIZATION_URL=https://notes.brennan.page/oauth/authorize
+      - CMD_OAUTH2_TOKEN_URL=https://notes.brennan.page/oauth/token
+      - CMD_OAUTH2_USER_PROFILE_URL=https://notes.brennan.page/oauth/userinfo
+      - CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=username
+      - CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=displayname
+      - CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=email
+      - CMD_OAUTH2_USER_PROFILE_PICTURE_ATTR=avatar
+      - CMD_EMAIL=false
+      - CMD_ALLOW_EMAIL_REGISTER=false
+      - CMD_ALLOW_GRAVATAR=true
+      - CMD_ALLOW_REGISTER=true
+      - CMD_IMAGE_UPLOAD_TYPE=filesystem
+      - CMD_IMAGE_UPLOAD_PATH=/hedgedoc/public/uploads
+      - CMD_HSTS_ENABLE=false
+      - CMD_HSTS_INCLUDE_SUBDOMAINS=false
+      - CMD_HSTS_PRELOAD=false
+    volumes:
+      - hedgedoc_uploads:/hedgedoc/public/uploads
+    networks:
+      - internal_db
+      - caddy
+    mem_limit: 256m
+    mem_reservation: 128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  hedgedoc_uploads:
+    driver: local
+
+networks:
+  internal_db:
+    external: true
+  caddy:
+    external: true

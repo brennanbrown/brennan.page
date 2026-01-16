@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+    environment:
+      - ND_SCANINTERVAL=1h
+      - ND_LOGLEVEL=info
+      - ND_SESSIONTIMEOUT=24h
+      - ND_BASEURL=/music
+      - ND_MUSICFOLDER=/music
+      - ND_DATAFOLDER=/data
+      - ND_CACHEFOLDER=/cache
+      - ND_IMAGECACHEFOLDER=/cache/images
+      - ND_TRANSCODINGCACHESIZE=100MB
+      - ND_ENABLESHARING=true
+      - ND_ENABLEDOWNLOAD=true
+      - ND_ENABLECOVERART=true
+      - ND_ENABLESTARRATING=true
+      - ND_ENABLEFAVORITES=true
+      - ND_ENABLEUSERMANAGEMENT=true
+      - ND_DEFAULTLANGUAGE=en
+      - ND_UIWELCOMEMESSAGE=Welcome to brennan.page Music
+      - ND_ENABLESTARRATING=true
+      - ND_ENABLEFAVORITES=true
+      - ND_ENABLESHARING=true
+      - ND_ENABLEDOWNLOAD=true
+      - ND_ENABLECOVERART=true
+      - ND_ENABLELOGGING=true
+      - ND_ENABLEMETRICS=true
+      - ND_PORTRADIO=true
+    volumes:
+      - navidrome_data:/data
+      - navidrome_cache:/cache
+      - navidrome_music:/music
+    networks:
+      - internal_db
+      - caddy
+    mem_limit: 256m
+    mem_reservation: 128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  navidrome_data:
+    driver: local
+  navidrome_cache:
+    driver: local
+  navidrome_music:
+    driver: local
+
+networks:
+  internal_db:
+    external: true
+  caddy:
+    external: true
