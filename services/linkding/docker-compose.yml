@@ -16,7 +16,7 @@ services:
       - LD_SUPERUSER_PASSWORD=linkding_admin_password_2026
       - LD_REQUEST_TIMEOUT=30
       - LD_DATA_DIR=/data
-      - LD_ENABLE_AUTH_PROXY=true
+      - LD_ENABLE_AUTH_PROXY=false
       - LD_AUTH_PROXY_USERNAME_HEADER=X-Username
       - LD_AUTH_PROXY_LOGOUT_URL=https://bookmarks.brennan.page
       - LD_ENABLE_LOGIN_FORM=true
@@ -26,7 +26,7 @@ services:
       - LD_ENABLE_AUTOMATIC_TAGGING=true
       - LD_ENABLE_SHARING=true
       - LD_ENABLE_PUBLIC_SHARING=true
-      - LD_ENABLE_API_TOKENS=true
+      - LD_ENABLE_CSRF_TOKENS=false
       - LD_ENABLE_REGISTRATION=false
       - LD_ENABLE_FRONTEND_REGISTRATION=false
     volumes:
