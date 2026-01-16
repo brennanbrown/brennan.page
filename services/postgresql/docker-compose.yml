@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:15-alpine
+    container_name: postgresql
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=homelab
+      - POSTGRES_USER=homelab
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_password:/run/secrets/postgres_password:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - internal_db
+    mem_limit: 256m
+    mem_reservation: 128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  internal_db:
+    external: true

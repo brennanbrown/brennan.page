@@ -79,6 +79,50 @@ files.brennan.page {
     }
 }
 
+# Task management
+tasks.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy vikunja:3456
+    handle_errors {
+        respond "Task management service unavailable" 503
+    }
+}
+
+# Collaborative notes
+notes.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy hedgedoc:3000
+    handle_errors {
+        respond "Notes service unavailable" 503
+    }
+}
+
+# Bookmark manager
+bookmarks.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy linkding:9090
+    handle_errors {
+        respond "Bookmark service unavailable" 503
+    }
+}
+
+# Music streaming
+music.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy navidrome:4533
+    handle_errors {
+        respond "Music service unavailable" 503
+    }
+}
+
 # Blog platform (future)
 blog.brennan.page {
     import compression
@@ -101,28 +145,6 @@ forum.brennan.page {
     }
 }
 
-# Task management (future)
-tasks.brennan.page {
-    import compression
-    import security
-    
-    reverse_proxy vikunja:80
-    handle_errors {
-        respond "Task management unavailable" 503
-    }
-}
-
-# Notes platform (future)
-notes.brennan.page {
-    import compression
-    import security
-    
-    reverse_proxy hedgedoc:3000
-    handle_errors {
-        respond "Notes service unavailable" 503
-    }
-}
-
 # RSS reader (future)
 rss.brennan.page {
     import compression
@@ -134,28 +156,6 @@ rss.brennan.page {
     }
 }
 
-# Bookmark manager (future)
-bookmarks.brennan.page {
-    import compression
-    import security
-    
-    reverse_proxy linkding:9077
-    handle_errors {
-        respond "Bookmark service unavailable" 503
-    }
-}
-
-# Music streaming (future)
-music.brennan.page {
-    import compression
-    import security
-    
-    reverse_proxy navidrome:4533
-    handle_errors {
-        respond "Music service unavailable" 503
-    }
-}
-
 # File sharing (future)
 share.brennan.page {
     import compression
@@ -164,16 +164,5 @@ share.brennan.page {
     reverse_proxy plik:8080
     handle_errors {
         respond "File sharing unavailable" 503
-    }
-}
-
-# Poll scheduler (future)
-poll.brennan.page {
-    import compression
-    import security
-    
-    reverse_proxy rallly:3000
-    handle_errors {
-        respond "Poll service unavailable" 503
     }
 }

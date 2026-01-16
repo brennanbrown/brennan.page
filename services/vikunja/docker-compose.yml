@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  vikunja:
+    image: vikunja/vikunja:latest
+    container_name: vikunja
+    restart: unless-stopped
+    environment:
+      - VIKUNJA_DATABASE_HOST=postgresql
+      - VIKUNJA_DATABASE_TYPE=postgres
+      - VIKUNJA_DATABASE_USER=vikunja
+      - VIKUNJA_DATABASE_PASSWORD=vikunja_password
+      - VIKUNJA_DATABASE_DATABASE=vikunja
+      - VIKUNJA_SERVICE_URL=https://tasks.brennan.page
+      - VIKUNJA_MAILER_HOST=smtp.gmail.com
+      - VIKUNJA_MAILER_PORT=587
+      - VIKUNJA_MAILER_FROM=noreply@brennan.page
+      - VIKUNJA_MAILER_ENABLED=false
+      - VIKUNJA_ENOBLEREGISTRATION=true
+      - VIKUNJA_FRONTEND_URL=https://tasks.brennan.page
+      - VIKUNJA_PUBLIC_URL=https://tasks.brennan.page
+      - VIKUNJA_CORS_ENABLE=false
+    volumes:
+      - vikunja_files:/app/vikunja/files
+    networks:
+      - internal_db
+      - caddy
+    mem_limit: 256m
+    mem_reservation: 128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  vikunja_files:
+    driver: local
+
+networks:
+  internal_db:
+    external: true
+  caddy:
+    external: true
