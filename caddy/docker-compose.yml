@@ -14,6 +14,7 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - /var/www/brennan.page:/var/www/brennan.page:ro
+      - /opt/homelab/wiki:/opt/homelab/wiki:ro
     networks:
       - caddy
     mem_limit: 256m  # Prevent runaway memory usage
