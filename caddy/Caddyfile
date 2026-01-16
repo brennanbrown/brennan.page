@@ -95,7 +95,7 @@ notes.brennan.page {
     import compression
     import security
     
-    reverse_proxy hedgedoc:3000
+reverse_proxy hedgedoc:3000
     handle_errors {
         respond "Notes service unavailable" 503
     }
@@ -128,7 +128,7 @@ blog.brennan.page {
     import compression
     import security
     
-reverse_proxy writefreely:80
+reverse_proxy writefreely:8080
     handle_errors {
         respond "Blog service unavailable" 503
     }
@@ -139,7 +139,7 @@ forum.brennan.page {
     import compression
     import security
     
-reverse_proxy flarum:80
+reverse_proxy flarum:8888
     handle_errors {
         respond "Forum service unavailable" 503
     }
