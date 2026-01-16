@@ -22,43 +22,10 @@
     }
 }
 
-# Favicon snippet - DRY and simple
-(favicon) {
-    handle /favicon.ico {
-        root * /opt/homelab/favicon
-        file_server
-    }
-    handle /apple-touch-icon.png {
-        root * /opt/homelab/favicon
-        file_server
-    }
-    handle /android-chrome-192x192.png {
-        root * /opt/homelab/favicon
-        file_server
-    }
-    handle /android-chrome-512x512.png {
-        root * /opt/homelab/favicon
-        file_server
-    }
-    handle /favicon-16x16.png {
-        root * /opt/homelab/favicon
-        file_server
-    }
-    handle /favicon-32x32.png {
-        root * /opt/homelab/favicon
-        file_server
-    }
-    handle /site.webmanifest {
-        root * /opt/homelab/favicon
-        file_server
-    }
-}
-
 # Root domain - landing page
 brennan.page {
     import compression
     import security
-    import favicon
     
     root * /var/www/brennan.page
     file_server
@@ -71,7 +38,6 @@ brennan.page {
 wiki.brennan.page {
     import compression
     import security
-    import favicon
     
     root * /opt/homelab/wiki
     file_server
@@ -84,7 +50,6 @@ wiki.brennan.page {
 docker.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy portainer:9000
     handle_errors {
@@ -96,7 +61,6 @@ docker.brennan.page {
 monitor.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy monitor:80
     handle_errors {
@@ -108,7 +72,6 @@ monitor.brennan.page {
 files.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy filebrowser:80
     handle_errors {
@@ -120,7 +83,6 @@ files.brennan.page {
 tasks.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy vikunja:3456
     handle_errors {
@@ -132,7 +94,6 @@ tasks.brennan.page {
 notes.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy hedgedoc:3000
     handle_errors {
@@ -144,7 +105,6 @@ notes.brennan.page {
 bookmarks.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy linkding:9090
     handle_errors {
@@ -156,7 +116,6 @@ bookmarks.brennan.page {
 music.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy navidrome:4533
     handle_errors {
@@ -168,9 +127,8 @@ music.brennan.page {
 blog.brennan.page {
     import compression
     import security
-    import favicon
     
-    reverse_proxy writefreely:80
+reverse_proxy writefreely:80
     handle_errors {
         respond "Blog service unavailable" 503
     }
@@ -180,9 +138,8 @@ blog.brennan.page {
 forum.brennan.page {
     import compression
     import security
-    import favicon
     
-    reverse_proxy flarum:8080
+reverse_proxy flarum:80
     handle_errors {
         respond "Forum service unavailable" 503
     }
@@ -192,9 +149,8 @@ forum.brennan.page {
 rss.brennan.page {
     import compression
     import security
-    import favicon
     
-    reverse_proxy freshrss:80
+reverse_proxy freshrss:80
     handle_errors {
         respond "RSS service unavailable" 503
     }
@@ -204,7 +160,6 @@ rss.brennan.page {
 share.brennan.page {
     import compression
     import security
-    import favicon
     
     reverse_proxy plik:8080
     handle_errors {
