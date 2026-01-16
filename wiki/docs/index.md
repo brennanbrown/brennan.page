@@ -30,15 +30,39 @@ brennan.page is a self-hosted homelab running on a DigitalOcean droplet (2GB RAM
 - **Backup Strategy**: Automated backups with rotation
 - **Security**: UFW firewall, fail2ban, SSH key authentication
 
+## Recent Updates
+
+### Phase 3 Progress (2026-01-16)
+- **PostgreSQL Database**: Shared database foundation deployed
+- **Vikunja Task Management**: Task management system operational
+- **Database Integration**: All services connected to PostgreSQL
+- **Security Implementation**: Proper user permissions and network isolation
+- **Next**: HedgeDoc, Linkding, Navidrome deployment
+
+### Phase 2 Completion (2026-01-16)
+- **Monitoring Service**: Replaced Glances with custom monitoring solution
+- **Documentation Wiki**: Deployed comprehensive MkDocs documentation
+- **All Services**: 5/5 services operational
+- **Resource Efficiency**: Maintained within 2GB limit
+
+### Phase 1 Foundation (2026-01-16)
+- **Infrastructure Setup**: Docker, Caddy, networking
+- **Core Services**: Portainer, FileBrowser, monitoring
+- **Landing Page**: Modern dark theme interface
+- **Security**: UFW firewall, SSH configuration
+- **Automation**: Backup and health check scripts
+
 ## Service Status
 
-| Service | Subdomain | Status | Priority |
-|---------|-----------|--------|----------|
-| Caddy | - | 🟢 Critical | Foundation |
-| Portainer | docker.brennan.page | 🟢 High | Management |
-| Glances | monitor.brennan.page | 🟢 High | Monitoring |
-| FileBrowser | files.brennan.page | 🟢 Medium | File Management |
-| Wiki | wiki.brennan.page | 🟢 High | Documentation |
+| Service | Subdomain | Status | Priority | Description |
+|---------|-----------|--------|----------|-------------|
+| Caddy | - | 🟢 Critical | Foundation | Reverse proxy with SSL |
+| Portainer | docker.brennan.page | 🟢 High | Management | Docker management UI |
+| Monitor | monitor.brennan.page | 🟢 High | Monitoring | System monitoring dashboard |
+| FileBrowser | files.brennan.page | 🟢 Medium | File Management | File management interface |
+| Wiki | wiki.brennan.page | 🟢 High | Documentation | MkDocs documentation |
+| PostgreSQL | - | 🟢 Critical | Database | Shared database for Phase 3 |
+| Vikunja | tasks.brennan.page | 🟢 Medium | Productivity | Task management system |
 
 ## Resource Usage
 
