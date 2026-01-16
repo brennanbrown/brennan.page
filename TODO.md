@@ -15,20 +15,24 @@
 - [x] Set up backup scripts and automation
 - [x] Create health monitoring scripts
 
-### Phase 2 - Monitoring & Documentation 🚧 (IN PROGRESS)
-- [ ] Fix Glances web interface configuration
-- [ ] Deploy MkDocs wiki (wiki.brennan.page)
-- [ ] Create comprehensive service documentation
-- [ ] Set up automated wiki deployment
-- [ ] Configure service health dashboards
-- [ ] Add system alerting (email/webhook)
+### Phase 2 - Monitoring & Documentation ✅ (COMPLETED)
+- [x] Replace Glances with lightweight monitoring solution
+- [x] Deploy MkDocs wiki (wiki.brennan.page)
+- [x] Create comprehensive service documentation
+- [x] Set up automated wiki deployment
+- [x] Configure service health dashboards
+- [x] Fix monitoring service proxy issues
+- [x] Complete Phase 2 documentation in wiki
+- [x] Set up Portainer admin account
 
-### Phase 3 - Personal Productivity 📋 (PLANNED)
+### Phase 3 - Personal Productivity � (NEXT)
+- [ ] Deploy PostgreSQL database
 - [ ] Deploy Vikunja (tasks.brennan.page)
 - [ ] Deploy HedgeDoc (notes.brennan.page)
 - [ ] Deploy Linkding (bookmarks.brennan.page)
 - [ ] Deploy Navidrome (music.brennan.page)
-- [ ] Configure shared database (PostgreSQL)
+- [ ] Configure service authentication
+- [ ] Set up database backups
 
 ### Phase 4 - Content & Community 📋 (PLANNED)
 - [ ] Deploy WriteFreely (blog.brennan.page)
@@ -54,17 +58,17 @@
 ## 🔧 Technical Tasks
 
 ### Immediate Fixes
-- [ ] Fix Glances web interface (currently returning 503)
-- [ ] Configure proper CORS headers for APIs
-- [ ] Set up proper error pages for Caddy
-- [ ] Optimize Caddy configuration for HTTP/3
+- [x] Fix Glances web interface (replaced with custom monitoring solution)
+- [x] Configure proper CORS headers for APIs
+- [x] Set up proper error pages for Caddy
+- [x] Optimize Caddy configuration for HTTP/3
 
 ### Documentation
-- [ ] Complete MkDocs site structure
-- [ ] Write service-specific documentation
-- [ ] Create deployment runbooks
-- [ ] Document backup procedures
-- [ ] Create troubleshooting guides
+- [x] Complete MkDocs site structure
+- [x] Write service-specific documentation
+- [x] Create deployment runbooks
+- [x] Document backup procedures
+- [x] Create troubleshooting guides
 
 ### Security
 - [ ] Configure fail2ban for SSH protection

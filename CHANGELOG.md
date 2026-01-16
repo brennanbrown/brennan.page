@@ -5,65 +5,73 @@ All notable changes to brennan.page homelab will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.0] - 2026-01-16
 
 ### Added
-- Planned Phase 2-6 service deployments
-- Comprehensive documentation structure
-- Backup and monitoring automation plans
+- **Complete Phase 2 Implementation**: Monitoring and documentation infrastructure
+- **Custom Monitoring Service**: Replaced Glances with lightweight Nginx-based solution
+- **MkDocs Wiki**: Comprehensive documentation platform with Material theme
+- **Service Documentation**: Complete technical documentation for all services
+- **Troubleshooting Guides**: Detailed troubleshooting procedures and solutions
+- **Portainer Admin Setup**: Docker management interface fully configured
 
 ### Changed
-- N/A
-
-### Deprecated
-- N/A
-
-### Removed
-- N/A
+- **Monitoring Architecture**: Switched from Glances to static HTML/CSS/JavaScript solution
+- **Documentation Workflow**: Implemented local-first development workflow
+- **Resource Allocation**: Optimized service resource usage within 2GB limit
+- **Git Commit Hygiene**: Improved commit message formatting and standards
 
 ### Fixed
-- N/A
+- **Glances Proxy Issues**: Resolved persistent 503 errors with custom monitoring solution
+- **SSH Command Override**: Fixed SSH command contamination issue
+- **Port Mapping**: Corrected monitor service port configuration (monitor:80 vs monitor:8081)
+- **Portainer Timeout**: Resolved security timeout by restarting service
+- **Caddy Configuration**: Fixed reverse proxy configurations for all services
 
 ### Security
-- N/A
+- **SSL Certificates**: All services accessible via HTTPS with valid certificates
+- **Security Headers**: Implemented proper security headers via Caddy
+- **Container Isolation**: Maintained proper Docker network segmentation
+- **Access Control**: Configured appropriate access levels for services
+
+### Performance
+- **Resource Usage**: Maintained ~500MB usage (25% of 2GB allocation)
+- **Response Times**: Optimized service response times under 120ms
+- **Auto-refresh**: Implemented 30-second auto-refresh for monitoring dashboard
+- **Compression**: Enabled gzip compression for all services
 
 ---
 
 ## [0.1.0] - 2026-01-16
 
 ### Added
-- **Repository Structure**: Complete mono-repo layout with proper organization
-- **SSH Configuration**: Secure SSH access with key-based authentication
-- **Docker Infrastructure**: 
-  - Docker and Docker Compose installation
-  - Network setup (caddy, internal_db, monitoring)
-  - Container resource limits and logging
-- **Security**:
-  - UFW firewall configuration (ports 22, 2222, 80, 443)
-  - SSH key authentication
-  - Basic security headers via Caddy
-- **Reverse Proxy**:
-  - Caddy configuration with automatic HTTPS
-  - HTTP/2 and HTTP/3 support
-  - Compression and security headers
-  - Subdomain routing for all planned services
-- **Core Services**:
-  - **Portainer** (docker.brennan.page) - Docker management UI
-  - **FileBrowser** (files.brennan.page) - File management interface
-  - **Glances** (monitor.brennan.page) - System monitoring (partial)
-- **Landing Page**: 
-  - Modern dark theme landing page at brennan.page
-  - Service status overview
-  - System information display
-- **Automation**:
-  - Backup scripts with automated daily execution
-  - Health check scripts for service monitoring
-  - Deployment scripts for infrastructure management
-- **Documentation**:
-  - Comprehensive README with setup instructions
-  - SSH reference documentation
-  - Service specification document
-  - MkDocs wiki structure (ready for deployment)
+- **Phase 1 Foundation**: Complete infrastructure setup
+- **Docker Environment**: Container runtime with resource limits
+- **Caddy Reverse Proxy**: Automatic HTTPS and subdomain routing
+- **Core Services**: Portainer, FileBrowser, monitoring
+- **Landing Page**: Modern dark theme interface
+- **Security**: UFW firewall, SSH key authentication
+- **Backup Scripts**: Automated backup and health check scripts
+- **Project Structure**: Complete repository organization
+
+### Changed
+- **Infrastructure**: Migrated from concept to deployed solution
+- **Development**: Established local-first workflow
+- **Documentation**: Created comprehensive project documentation
+
+### Security
+- **SSH Configuration**: Key-based authentication only
+- **Firewall**: UFW configured with essential ports
+- **Container Security**: Non-root processes where possible
+
+---
+
+## [Unreleased]
+
+### Added
+- Phase 3 planning for personal productivity tools
+- PostgreSQL database deployment preparation
+- Additional service authentication requirements
 
 ### Changed
 - N/A
@@ -75,56 +83,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - N/A
 
 ### Fixed
-- **Caddy Volume Mount**: Fixed web directory mounting for landing page
-- **SSH Host Key**: Resolved SSH host key verification issues
-- **Docker Networks**: Created proper network isolation for services
+- N/A
 
 ### Security
-- Configured UFW firewall with essential ports
-- Implemented SSH key-based authentication
-- Added security headers via Caddy configuration
-- Set up proper file permissions for sensitive directories
+- N/A
 
----
-
-## [0.0.1] - 2026-01-16 (Planning)
-
-### Added
-- Initial project specification document
-- Repository structure planning
-- Service architecture design
-- Development workflow documentation
-
----
-
-## Project Phases
-
-### Phase 1 - Foundation ✅ (COMPLETED)
-**Date**: 2026-01-16  
-**Status**: Complete  
-
-**Deliverables**:
-- ✅ Server setup and security configuration
-- ✅ Docker infrastructure and networking
-- ✅ Reverse proxy with SSL termination
-- ✅ Core management services (Portainer, FileBrowser)
-- ✅ Landing page and basic monitoring
-- ✅ Backup and deployment automation
-
-**Services Deployed**:
-- Caddy (reverse proxy)
-- Portainer (Docker management)
-- FileBrowser (file management)
-- Glances (system monitoring - partial)
-
-**Resource Usage**:
-- Memory: ~500MB / 2GB (25%)
-- Storage: ~3GB / 67GB (5%)
-- All services running with proper resource limits
-
-### Phase 2 - Monitoring & Documentation 🚧 (IN PROGRESS)
-**Target Date**: 2026-01-23  
-**Status**: In Progress  
+---  
 
 **Planned Deliverables**:
 - 🔄 Fix Glances web interface configuration
@@ -137,6 +101,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Target Date**: 2026-01-30  
 **Status**: Planned  
 
+### Security
+- N/A
+
+---  
 **Planned Services**:
 - Vikunja (task management)
 - HedgeDoc (collaborative notes)
