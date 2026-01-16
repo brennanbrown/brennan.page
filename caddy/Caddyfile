@@ -5,8 +5,6 @@
         output file /var/log/caddy/access.log
         format console
     }
-    
-    # Global favicon handler for all domains
 }
 
 # Compression snippet for reuse
@@ -24,8 +22,36 @@
     }
 }
 
-# Favicon serving for all domains
+# Favicon snippet - DRY and simple
 (favicon) {
+    handle /favicon.ico {
+        root * /opt/homelab/favicon
+        file_server
+    }
+    handle /apple-touch-icon.png {
+        root * /opt/homelab/favicon
+        file_server
+    }
+    handle /android-chrome-192x192.png {
+        root * /opt/homelab/favicon
+        file_server
+    }
+    handle /android-chrome-512x512.png {
+        root * /opt/homelab/favicon
+        file_server
+    }
+    handle /favicon-16x16.png {
+        root * /opt/homelab/favicon
+        file_server
+    }
+    handle /favicon-32x32.png {
+        root * /opt/homelab/favicon
+        file_server
+    }
+    handle /site.webmanifest {
+        root * /opt/homelab/favicon
+        file_server
+    }
 }
 
 # Root domain - landing page
@@ -58,8 +84,9 @@ wiki.brennan.page {
 docker.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy portainer:9000
+    reverse_proxy portainer:9000
     handle_errors {
         respond "Docker management unavailable" 503
     }
@@ -69,8 +96,9 @@ reverse_proxy portainer:9000
 monitor.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy monitor:80
+    reverse_proxy monitor:80
     handle_errors {
         respond "Monitoring service unavailable" 503
     }
@@ -80,8 +108,9 @@ reverse_proxy monitor:80
 files.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy filebrowser:80
+    reverse_proxy filebrowser:80
     handle_errors {
         respond "File browser unavailable" 503
     }
@@ -91,8 +120,9 @@ reverse_proxy filebrowser:80
 tasks.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy vikunja:3456
+    reverse_proxy vikunja:3456
     handle_errors {
         respond "Task management service unavailable" 503
     }
@@ -102,8 +132,9 @@ reverse_proxy vikunja:3456
 notes.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy hedgedoc:3000
+    reverse_proxy hedgedoc:3000
     handle_errors {
         respond "Notes service unavailable" 503
     }
@@ -113,8 +144,9 @@ reverse_proxy hedgedoc:3000
 bookmarks.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy linkding:9090
+    reverse_proxy linkding:9090
     handle_errors {
         respond "Bookmark service unavailable" 503
     }
@@ -124,8 +156,9 @@ reverse_proxy linkding:9090
 music.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy navidrome:4533
+    reverse_proxy navidrome:4533
     handle_errors {
         respond "Music service unavailable" 503
     }
@@ -135,8 +168,9 @@ reverse_proxy navidrome:4533
 blog.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy writefreely:80
+    reverse_proxy writefreely:80
     handle_errors {
         respond "Blog service unavailable" 503
     }
@@ -146,8 +180,9 @@ reverse_proxy writefreely:80
 forum.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy flarum:8080
+    reverse_proxy flarum:8080
     handle_errors {
         respond "Forum service unavailable" 503
     }
@@ -157,8 +192,9 @@ reverse_proxy flarum:8080
 rss.brennan.page {
     import compression
     import security
+    import favicon
     
-reverse_proxy freshrss:80
+    reverse_proxy freshrss:80
     handle_errors {
         respond "RSS service unavailable" 503
     }
@@ -168,6 +204,7 @@ reverse_proxy freshrss:80
 share.brennan.page {
     import compression
     import security
+    import favicon
     
     reverse_proxy plik:8080
     handle_errors {
