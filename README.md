@@ -2,7 +2,27 @@
 
 Self-hosted infrastructure on DigitalOcean showcasing backend/cloud development skills while providing personal productivity tools and community-building features.
 
-## Quick Start
+## 🌐 Live Services
+
+### Core Infrastructure
+- **brennan.page** - Modern landing page with service status dashboard
+- **docker.brennan.page** - Portainer Docker management UI
+- **monitor.brennan.page** - Enhanced system monitoring with real-time stats
+- **files.brennan.page** - FileBrowser file management interface
+- **wiki.brennan.page** - Git-backed static documentation wiki
+
+### Productivity Suite
+- **tasks.brennan.page** - Vikunja task management system
+- **notes.brennan.page** - HedgeDoc collaborative markdown editing
+- **bookmarks.brennan.page** - Linkding bookmark manager
+- **music.brennan.page** - Navidrome music streaming service
+
+### Community Platforms (Phase 4)
+- **blog.brennan.page** - WriteFreely minimalist blogging platform
+- **forum.brennan.page** - Flarum community discussion forum
+- **rss.brennan.page** - FreshRSS feed aggregator
+
+## 🚀 Quick Start
 
 This repository contains the complete infrastructure configuration for brennan.page homelab. The structure follows the specification in `docs/spec-sheet.md`.
 
@@ -12,22 +32,32 @@ This repository contains the complete infrastructure configuration for brennan.p
 homelab/
 ├── .gitignore
 ├── README.md
+├── landing.html              # Main landing page
 ├── caddy/                    # Reverse proxy configuration
 │   ├── Caddyfile
 │   └── docker-compose.yml
+├── services/                 # Individual service configurations
+│   ├── portainer/            # Docker management
+│   ├── monitor/              # Enhanced monitoring dashboard
+│   ├── filebrowser/          # File management
+│   ├── postgresql/           # Shared database
+│   ├── vikunja/              # Task management
+│   ├── hedgedoc/             # Collaborative notes
+│   ├── linkding/             # Bookmark manager
+│   ├── navidrome/            # Music streaming
+│   ├── writefreely/          # Blogging platform
+│   ├── flarum/               # Community forum
+│   ├── freshrss/             # RSS aggregator
+│   └── glances/              # Legacy monitoring
 ├── wiki/                     # Git-backed static wiki (MkDocs)
 │   ├── mkdocs.yml
 │   ├── docs/
 │   └── deploy-wiki.sh
-├── services/                 # Individual service configurations
-│   ├── writefreely/
-│   ├── flarum/
-│   ├── vikunja/
-│   └── [other services]/
 ├── scripts/                  # Automation and utility scripts
 │   ├── backup.sh
 │   ├── health-check.sh
-│   └── deploy-service.sh
+│   ├── deploy-service.sh
+│   └── deploy-all.sh
 └── docs/                     # Internal development documentation
     ├── ssh-reference.md
     ├── basic-info.md
@@ -41,32 +71,73 @@ homelab/
 3. **Remote Deployment**: Use `rsync` to sync files to the server
 4. **Service Management**: Use Docker Compose to manage services
 
-### Key Services
+## 📊 System Overview
 
-- **brennan.page** - Landing page with service status
-- **wiki.brennan.page** - Git-backed static documentation wiki
-- **docker.brennan.page** - Portainer Docker management UI
-- **monitor.brennan.page** - Glances system monitoring
-- **files.brennan.page** - FileBrowser file management
+### Infrastructure Stack
+- **Server**: DigitalOcean 2GB RAM/1CPU/70GB Disk - Ubuntu 24.04 LTS
+- **Reverse Proxy**: Caddy 2 with automatic HTTPS
+- **Containerization**: Docker & Docker Compose
+- **Database**: PostgreSQL 16 with multi-service architecture
+- **Monitoring**: Custom dashboard with real-time metrics
 
-### Getting Started
+### Resource Usage
+- **Memory Usage**: ~800MB (40% of 2GB allocation)
+- **Storage Usage**: ~3.4GB (5% of 70GB allocation)
+- **Active Services**: 11 containers running
+- **Response Times**: All services under 200ms
+
+## 🛠️ Getting Started
 
 1. Review `docs/spec-sheet.md` for complete architecture overview
 2. Set up local development environment
 3. Configure SSH access to the server (see `docs/ssh-reference.md`)
 4. Begin with Phase 1: Foundation services (Caddy, Docker, Portainer)
 
-### Documentation
+### Phase-Based Deployment
+
+**Phase 1**: Core Infrastructure (Caddy, Docker, Portainer)
+**Phase 2**: Monitoring & Documentation (Monitor, Wiki)
+**Phase 3**: Productivity Suite (Tasks, Notes, Bookmarks, Music)
+**Phase 4**: Community Platforms (Blog, Forum, RSS)
+
+## 📚 Documentation
 
 Complete documentation is maintained in the `docs/` directory and deployed to `wiki.brennan.page`.
 
-### Project Tracking
+### Key Documentation
+- **[Wiki](https://wiki.brennan.page)** - Complete service documentation
+- **[SSH Reference](./docs/ssh-reference.md)** - Server management commands
+- **[Configuration Guide](./wiki/docs/configuration/)** - Service configuration
+- **[Operations Guide](./wiki/docs/operations/)** - Deployment and maintenance
+
+## 📈 Project Tracking
 
 - **[CHANGELOG.md](./CHANGELOG.md)** - Detailed history of changes and releases
 - **[TODO.md](./TODO.md)** - Current tasks, priorities, and roadmap
 
+## 🔧 Recent Updates (v0.3.0)
+
+### Enhanced Monitoring Dashboard
+- **Real-time System Stats**: Memory, disk, CPU, network metrics
+- **Visual Progress Bars**: Color-coded resource usage indicators
+- **Service Health Checks**: Automated status monitoring for all 11 services
+- **Response Time Tracking**: Performance monitoring with detailed metrics
+
+### Modern Landing Page
+- **Complete UI Overhaul**: From simple text to modern styled interface
+- **Service Cards**: Interactive cards with status indicators
+- **System Statistics**: Real-time resource usage display
+- **Responsive Design**: Mobile-friendly layout
+
+### Productivity Suite Integration
+- **Task Management**: Vikunja with PostgreSQL backend
+- **Collaborative Notes**: HedgeDoc with real-time editing
+- **Bookmark Management**: Linkding with clean interface
+- **Music Streaming**: Navidrome with personal library
+
 ---
 
-**Server**: DigitalOcean 2GB RAM/1CPU/70GB Disk - Ubuntu 24.04 LTS  
 **Domain**: brennan.page  
-**Management**: Local development + SSH deployment via AI-assisted coding
+**Management**: Local development + SSH deployment via AI-assisted coding  
+**Version**: 0.3.0 (Production)  
+**Last Updated**: 2026-01-16
