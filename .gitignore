@@ -2,6 +2,7 @@
 *.env
 secrets/
 passwords/
+password.txt
 
 # OS and editor files
 .DS_Store
