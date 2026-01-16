@@ -13,6 +13,8 @@ services:
       - /opt/homelab:/opt/homelab:ro
     environment:
       - FB_BASEURL=/files
+      - FB_USERNAME=admin
+      - FB_PASSWORD=admin_password
     networks:
       - caddy
     mem_limit: 50m
