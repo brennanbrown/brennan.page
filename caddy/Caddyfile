@@ -62,7 +62,7 @@ monitor.brennan.page {
     import compression
     import security
     
-    reverse_proxy glances:61208
+    reverse_proxy monitor:80
     handle_errors {
         respond "Monitoring service unavailable" 503
     }
