@@ -87,7 +87,7 @@ services:
     mem_reservation: 50m
     cpus: 0.25
 
-# Monitor (Glances)
+# Enhanced Monitor
 services:
   monitor:
     mem_limit: 50m

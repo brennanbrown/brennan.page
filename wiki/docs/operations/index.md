@@ -428,7 +428,7 @@ ssh -i ~/.omg-lol-keys/id_ed25519 -T -o BatchMode=yes root@159.203.44.169 "
 - **restore.sh**: Disaster recovery
 
 ### Monitoring Tools
-- **Glances**: System monitoring
+- **Enhanced Monitor**: System monitoring
 - **Docker**: Container monitoring
 - **Caddy**: Web server logs
 - **PostgreSQL**: Database monitoring

@@ -101,8 +101,8 @@ ssh root@159.203.44.169 "cd /opt/homelab/caddy && docker compose up -d"
 # Deploy Portainer
 ./scripts/deploy-service.sh portainer
 
-# Deploy Glances
-./scripts/deploy-service.sh glances
+# Deploy Enhanced Monitor
+./scripts/deploy-service.sh monitor
 
 # Deploy FileBrowser
 ./scripts/deploy-service.sh filebrowser
@@ -123,7 +123,7 @@ brennan.page/
 ├── caddy/                    # Reverse proxy configuration
 ├── services/                 # Individual service configurations
 │   ├── portainer/
-│   ├── glances/
+│   ├── monitor/
 │   └── filebrowser/
 ├── wiki/                     # Documentation (MkDocs)
 ├── scripts/                  # Deployment and utility scripts

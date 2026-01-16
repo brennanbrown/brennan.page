@@ -50,7 +50,7 @@ ports:
 # Direct access: http://localhost:9000
 ```
 
-#### Monitor (Glances)
+#### Monitor (Enhanced Monitor)
 ```yaml
 # Direct access for system monitoring
 ports:

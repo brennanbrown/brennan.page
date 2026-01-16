@@ -18,7 +18,7 @@ The homelab deployment follows a phased approach to ensure stability and proper 
 - [x] Docker and Docker Compose installation
 - [x] Caddy reverse proxy configuration
 - [x] Portainer Docker management
-- [x] Glances system monitoring
+- [x] Enhanced Monitor system monitoring
 - [x] SSL certificate automation
 - [x] Backup system implementation
 
@@ -168,7 +168,7 @@ The homelab deployment follows a phased approach to ensure stability and proper 
 - **Environment Files**: Service-specific configurations
 
 ### Monitoring Tools
-- **Glances**: System monitoring
+- **Enhanced Monitor**: System monitoring
 - **Docker Stats**: Container monitoring
 - **Health Checks**: Service health monitoring
 
