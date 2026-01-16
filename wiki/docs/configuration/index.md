@@ -1,6 +1,6 @@
 # Configuration
 
-This section covers configuration management for the brennan.page homelab.
+Configuration management for the brennan.page homelab.
 
 ## Overview
 

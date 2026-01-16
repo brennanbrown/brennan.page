@@ -1,13 +1,13 @@
 # Monitor
 
-**Service**: System Monitor  
-**Version**: Custom Nginx Solution  
+**Service**: Enhanced System Monitor  
+**Version**: Custom Nginx Solution with Real-time Dashboard  
 **Status**: ✅ **OPERATIONAL**  
-**Purpose**: System Monitoring Dashboard  
+**Purpose**: Comprehensive System Monitoring Dashboard  
 
 ## Overview
 
-The Monitor service provides a lightweight system monitoring dashboard for the brennan.page homelab. It displays system information, resource usage, and service status in a clean, accessible interface.
+The Monitor service provides an enhanced system monitoring dashboard for the brennan.page homelab. It displays real-time system information, resource usage with visual progress bars, service health checks, and performance metrics in a modern, responsive interface.
 
 ## Architecture
 
@@ -42,23 +42,25 @@ services:
 ## Features
 
 ### System Information
-- **Hostname**: Server hostname
-- **Operating System**: Ubuntu 24.04 LTS
-- **Architecture**: System architecture
-- **Kernel Version**: Linux kernel version
-- **Uptime**: System uptime information
+- **Hostname**: Server hostname and system info
+- **Operating System**: Ubuntu 24.04 LTS details
+- **Architecture**: System architecture and kernel version
+- **Uptime**: System uptime and network statistics
+- **Processes**: Running process count and container status
 
-### Resource Monitoring
-- **Memory Usage**: Total, used, available memory
-- **Disk Usage**: Total, used, available disk space
-- **Load Average**: System load averages
-- **Process Count**: Running process count
+### Enhanced Resource Monitoring
+- **Memory Usage**: Total, used, available memory with visual progress bars
+- **Disk Usage**: Storage utilization with percentage indicators
+- **CPU & Load**: Real-time CPU usage and load averages (1m, 5m, 15m)
+- **Network Stats**: Connections, uptime, and network metrics
+- **Docker Info**: Running/stopped containers, images, volumes
 
-### Service Status
-- **Container Status**: Docker container status
-- **Service Health**: Individual service health
-- **Network Status**: Network connectivity
-- **Resource Limits**: Resource limit information
+### Service Health Monitoring
+- **Real-time Status**: Live health checks for all 11 services
+- **Response Times**: Performance monitoring with detailed metrics
+- **Service Cards**: Interactive status cards with error handling
+- **Auto-refresh**: 30-second automatic refresh with manual option
+- **Visual Indicators**: Color-coded status (online/offline/checking)
 
 ### Dashboard Features
 - **Auto-refresh**: 30-second auto-refresh

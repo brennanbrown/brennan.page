@@ -27,10 +27,11 @@ This section documents all services running in the brennan.page homelab.
 **Memory**: 100MB limit, 50MB reservation  
 
 #### [Monitor](monitor.md)
-**Role**: System Monitoring  
+**Role**: Enhanced System Monitoring  
 **URL**: https://monitor.brennan.page  
 **Status**: ✅ Active  
 **Memory**: 50MB limit, 30MB reservation  
+**Features**: Real-time stats, service health checks, visual progress bars  
 
 #### [FileBrowser](filebrowser.md)
 **Role**: File Management  
@@ -71,6 +72,27 @@ This section documents all services running in the brennan.page homelab.
 **URL**: https://wiki.brennan.page  
 **Status**: ✅ Active  
 **Memory**: Static files (no container)
+
+### Community Platforms (Phase 4)
+
+#### [WriteFreely](writefreely.md)
+**Role**: Blogging Platform  
+**URL**: https://blog.brennan.page  
+**Status**: ✅ Active  
+**Memory**: 128MB limit, 64MB reservation  
+
+#### [Flarum](flarum.md)
+**Role**: Community Forum  
+**URL**: https://forum.brennan.page  
+**Status**: ✅ Active  
+**Memory**: 256MB limit, 128MB reservation  
+**Database**: MariaDB (dedicated)
+
+#### [FreshRSS](freshrss.md)
+**Role**: RSS Aggregator  
+**URL**: https://rss.brennan.page  
+**Status**: ✅ Active  
+**Memory**: 128MB limit, 64MB reservation
 
 ## Service Architecture
 

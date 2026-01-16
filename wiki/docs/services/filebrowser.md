@@ -18,16 +18,15 @@ services:
     image: filebrowser/filebrowser:latest
     container_name: filebrowser
     restart: unless-stopped
-    environment:
-      - FB_DATABASE=/database/filebrowser.db
-      - FB_ROOT=/files
-      - FB_AUTH=internal
-      - FB_USERNAME=admin
-      -FB_PASSWORD=admin_password
+    ports:
+      - "8080:80"
     volumes:
-      - filebrowser_data:/database
-      - /opt/homelab:/files:ro
-      - /opt/homelab/wiki:/files/wiki:ro
+      - filebrowser_data:/srv
+      - filebrowser_config:/config
+      - filebrowser_database:/database
+      - /opt/homelab:/opt/homelab:ro
+    environment:
+      - FB_BASE_URL=/files
     networks:
       - caddy
     mem_limit: 50m
@@ -37,6 +36,15 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+volumes:
+  filebrowser_data:
+  filebrowser_config:
+  filebrowser_database:
+
+networks:
+  caddy:
+    external: true
 ```
 
 ### Network Configuration
@@ -81,9 +89,10 @@ services:
 
 ### Authentication
 - **Username**: admin
-- **Password**: admin_password (configured)
-- **Method**: Internal authentication
-- **Session**: Session-based authentication
+- **Password**: Set during initial deployment (see password.txt)
+- **Method**: Internal authentication with JWT tokens
+- **Session**: JWT-based authentication with automatic renewal
+- **Security**: SSL/TLS encryption via Caddy reverse proxy
 
 ### File Access
 - **Root Directory**: /opt/hemelab (read-only)
@@ -96,13 +105,13 @@ services:
 ### Environment Variables
 ```yaml
 environment:
-  - FB_DATABASE=/database/filebrowser.db
-  - FB_ROOT=/files
-  - FB_AUTH=internal
-  - FB_USERNAME=admin
-  - FB_PASSWORD=admin_password
-  - FB_BASEURL=https://files.brennan.page
+  - FB_BASE_URL=/files  # Base URL for reverse proxy (NOT FB_BASEURL - deprecated)
 ```
+
+**Important Notes:**
+- `FB_BASEURL` is deprecated, use `FB_BASE_URL` instead
+- Authentication credentials are set via database initialization, not environment variables
+- Database persistence requires dedicated volume (`filebrowser_database`)
 
 ### Database Configuration
 - **Database**: SQLite database
@@ -210,6 +219,67 @@ docker exec filebrowser cp /database/filebrowser.db /backup/
 
 ### Common Issues
 
+#### Login Authentication Errors (401/403)
+
+**Symptoms:**
+- Browser console shows "Invalid JWT token in storage" errors
+- API endpoints return 401 Unauthorized or 403 Forbidden
+- Login page accepts credentials but doesn't authenticate
+
+**Root Causes:**
+1. **Database Not Persisting**: Missing dedicated database volume causes password reset on restart
+2. **Deprecated Environment Variables**: Using `FB_BASEURL` instead of `FB_BASE_URL`
+3. **Conflicting Configuration**: Command-line arguments overriding proper binding
+
+**Solution:**
+```yaml
+# Correct docker-compose.yml configuration
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - filebrowser_data:/srv
+      - filebrowser_config:/config
+      - filebrowser_database:/database  # Critical for persistence
+      - /opt/homelab:/opt/homelab:ro
+    environment:
+      - FB_BASE_URL=/files  # Use updated variable name
+    networks:
+      - caddy
+
+volumes:
+  filebrowser_database:  # Prevents password resets
+```
+
+**Recovery Steps:**
+```bash
+# 1. Check current password in logs
+docker logs filebrowser | grep "initialized with"
+
+# 2. Test authentication locally
+curl -s -X POST http://localhost:8080/api/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"GENERATED_PASSWORD"}'
+
+# 3. If completely broken, reset database
+docker compose down
+docker volume rm filebrowser_filebrowser_database
+docker compose up -d
+
+# 4. Check new password in logs
+docker logs filebrowser | grep "initialized with"
+```
+
+**Prevention:**
+- Always use `filebrowser_database` volume for persistence
+- Use `FB_BASE_URL` instead of deprecated `FB_BASEURL`
+- Avoid custom command arguments unless necessary
+- Monitor container logs after configuration changes
+
 #### Access Issues
 ```bash
 # Check container status
@@ -239,14 +309,24 @@ docker exec filebrowser ls -la /files
 
 #### Authentication Issues
 ```bash
-# Check authentication configuration
-docker exec filebrowser env | grep FB_
+# Check container status
+docker ps | grep filebrowser
 
-# Reset authentication
-docker exec filebrowser rm /database/filebrowser.db
+# Check logs for password generation
+docker logs filebrowser | grep "initialized with"
 
-# Restart service
-docker restart filebrowser
+# Test internal access
+curl -s -X POST http://localhost:8080/api/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"YOUR_PASSWORD"}'
+
+# Check Caddy proxy
+curl -I https://files.brennan.page
+
+# Reset authentication (if needed)
+docker compose down
+docker volume rm filebrowser_filebrowser_database
+docker compose up -d
 ```
 
 ### Debug Commands
