@@ -2,7 +2,11 @@
 
 ## 🎯 Current Priority
 
-### Phase 1 - Foundation ✅ (COMPLETED)
+### Phase 4 - Content & Community 📋 (NEXT)
+- [ ] Deploy WriteFreely (blog.brennan.page)
+- [ ] Deploy Flarum (forum.brennan.page)
+- [ ] Deploy FreshRSS (rss.brennan.page)
+- [ ] Set up user authentication and management
 - [x] Set up repository structure
 - [x] Configure SSH access and security
 - [x] Install Docker and Docker Compose
@@ -25,14 +29,14 @@
 - [x] Complete Phase 2 documentation in wiki
 - [x] Set up Portainer admin account
 
-### Phase 3 - Personal Productivity � (NEXT)
-- [ ] Deploy PostgreSQL database
-- [ ] Deploy Vikunja (tasks.brennan.page)
-- [ ] Deploy HedgeDoc (notes.brennan.page)
-- [ ] Deploy Linkding (bookmarks.brennan.page)
-- [ ] Deploy Navidrome (music.brennan.page)
-- [ ] Configure service authentication
-- [ ] Set up database backups
+### Phase 3 - Personal Productivity ✅ (COMPLETED)
+- [x] Deploy PostgreSQL database
+- [x] Deploy Vikunja (tasks.brennan.page)
+- [x] Deploy HedgeDoc (notes.brennan.page)
+- [x] Deploy Linkding (bookmarks.brennan.page)
+- [x] Deploy Navidrome (music.brennan.page)
+- [x] Configure service authentication
+- [x] Set up database backups
 
 ### Phase 4 - Content & Community 📋 (PLANNED)
 - [ ] Deploy WriteFreely (blog.brennan.page)

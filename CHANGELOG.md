@@ -5,6 +5,38 @@ All notable changes to brennan.page homelab will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-01-16
+
+### Added
+- **Complete Phase 3 Implementation**: Personal productivity tools suite
+- **PostgreSQL Database**: Shared database infrastructure with proper user isolation
+- **Vikunja Task Management**: Full-featured task management at tasks.brennan.page
+- **HedgeDoc Collaborative Notes**: Real-time collaborative markdown editing at notes.brennan.page
+- **Linkding Bookmark Manager**: Clean bookmark management interface at bookmarks.brennan.page
+- **Navidrome Music Streaming**: Personal music streaming service at music.brennan.page
+- **Database Initialization**: Automated database and user creation for all services
+- **Service Monitoring**: Health checks and status tracking for all Phase 3 services
+
+### Changed
+- **Resource Allocation**: Optimized memory usage for new services within 2GB limit
+- **Database Architecture**: Centralized PostgreSQL with proper user isolation
+- **Service Integration**: All Phase 3 services properly integrated with Caddy reverse proxy
+- **Authentication Flow**: Configured service-specific authentication methods
+
+### Security
+- **Database Security**: Separate users and databases for each service
+- **Network Isolation**: Phase 3 services on internal_db network
+- **Container Security**: Non-root processes and resource limits enforced
+- **Access Control**: Proper authentication for all productivity services
+
+### Performance
+- **Memory Usage**: Maintained ~800MB usage (40% of 2GB allocation)
+- **Response Times**: All services responding under 200ms
+- **Database Optimization**: PostgreSQL tuned for multi-service workload
+- **Resource Limits**: Memory limits configured for all new services
+
+---
+
 ## [0.2.0] - 2026-01-16
 
 ### Added

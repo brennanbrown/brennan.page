@@ -17,7 +17,7 @@ Self-hosted infrastructure on DigitalOcean showcasing backend/cloud development 
 - **bookmarks.brennan.page** - Linkding bookmark manager
 - **music.brennan.page** - Navidrome music streaming service
 
-### Community Platforms (Phase 4)
+### Community Platforms
 - **blog.brennan.page** - WriteFreely minimalist blogging platform
 - **forum.brennan.page** - Flarum community discussion forum
 - **rss.brennan.page** - FreshRSS feed aggregator
@@ -138,6 +138,6 @@ Complete documentation is maintained in the `docs/` directory and deployed to `w
 ---
 
 **Domain**: brennan.page  
-**Management**: Local development + SSH deployment via AI-assisted coding  
+**Management**: Local development + SSH deployment
 **Version**: 0.3.0 (Production)  
 **Last Updated**: 2026-01-16
