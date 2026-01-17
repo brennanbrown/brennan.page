@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  flarum:
+    image: mondedie/flarum:latest
+    container_name: flarum
+    restart: unless-stopped
+    environment:
+      - DEBUG=false
+      - FORUM_URL=https://forum.brennan.page
+      - DB_HOST=postgresql
+      - DB_NAME=flarum
+      - DB_USER=flarum
+      - DB_PASS_FILE=/run/secrets/flarum_password
+      - DB_PREF=flarum_
+      - DB_DRIVER=pgsql
+      - UPLOAD_MAX_SIZE=10M
+      - MAIL_DRIVER=smtp
+      - MAIL_HOST=localhost
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=null
+      - MAIL_PASSWORD=null
+      - MAIL_FROM=null
+    volumes:
+      - flarum_data:/data
+      - ./flarum_password:/run/secrets/flarum_password:ro
+    networks:
+      - caddy
+      - internal_db
+    mem_limit: 256m
+    mem_reservation: 128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  caddy:
+    external: true
+  internal_db:
+    external: true
+
+volumes:
+  flarum_data:
+    driver: local

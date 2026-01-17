@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  freshrss:
+    image: freshrss/freshrss:latest
+    container_name: freshrss
+    restart: unless-stopped
+    environment:
+      - CRON_MIN=1,31
+      - TZ=America/Toronto
+      - FRESHRSS_INSTALL=auto
+      - FRESHRSS_DATA_PATH=/data
+      - FRESHRSS_DB_HOST=postgresql
+      - FRESHRSS_DB_NAME=freshrss
+      - FRESHRSS_DB_USER=freshrss
+      - FRESHRSS_DB_PASSWORD_FILE=/run/secrets/freshrss_password
+    volumes:
+      - freshrss_data:/data
+      - freshrss_extensions:/extensions
+      - ./freshrss_password:/run/secrets/freshrss_password:ro
+    networks:
+      - caddy
+      - internal_db
+    mem_limit: 128m
+    mem_reservation: 64m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  caddy:
+    external: true
+  internal_db:
+    external: true
+
+volumes:
+  freshrss_data:
+    driver: local
+  freshrss_extensions:
+    driver: local

@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  writefreely:
+    image: writeas/writefreely:latest
+    container_name: writefreely
+    restart: unless-stopped
+    environment:
+      - WRITEFREELY_DB_TYPE=postgres
+      - WRITEFREELY_DB_HOST=postgresql
+      - WRITEFREELY_DB_NAME=writefreely
+      - WRITEFREELY_DB_USER=writefreely
+      - WRITEFREELY_DB_PASSWORD=2MySpQgKFEc9G1tWqxHncMChGytr35DkPfTjXhlBXkE=
+      - WRITEFREELY_DB_PORT=5432
+      - WRITEFREELY_SITE_NAME=Brennan's Blog
+      - WRITEFREELY_SITE_DESCRIPTION=Personal blog and thoughts
+      - WRITEFREELY_HOST=0.0.0.0
+      - WRITEFREELY_PORT=80
+      - WRITEFREELY_SINGLE_USER=true
+      - WRITEFREELY_FEDERATION=true
+      - WRITEFREELY_EXTERNAL_HOST=https://blog.brennan.page
+    volumes:
+      - writefreely_data:/data
+      - ./writefreely.ini:/config.ini:ro
+    networks:
+      - caddy
+      - internal_db
+    mem_limit: 128m
+    mem_reservation: 64m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  writefreely_data:
+    driver: local
+
+networks:
+  caddy:
+    external: true
+  internal_db:
+    external: true
