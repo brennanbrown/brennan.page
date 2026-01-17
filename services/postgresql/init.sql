@@ -1,22 +1,31 @@
--- Initialize PostgreSQL database for Phase 3 services
+-- Initialize PostgreSQL database for Phase 3 & 4 services
 
 -- Create databases for each service
 CREATE DATABASE vikunja;
 CREATE DATABASE hedgedoc;
 CREATE DATABASE linkding;
 CREATE DATABASE navidrome;
+CREATE DATABASE writefreely;
+CREATE DATABASE flarum;
+CREATE DATABASE freshrss;
 
 -- Create users for each service
 CREATE USER vikunja WITH PASSWORD 'vikunja_password';
 CREATE USER hedgedoc WITH PASSWORD 'hedgedoc_password';
 CREATE USER linkding WITH PASSWORD 'linkding_password';
 CREATE USER navidrome WITH PASSWORD 'navidrome_password';
+CREATE USER writefreely WITH PASSWORD 'writefreely_password';
+CREATE USER flarum WITH PASSWORD 'flarum_password';
+CREATE USER freshrss WITH PASSWORD 'freshrss_password';
 
 -- Grant privileges to create schemas and tables
 GRANT ALL PRIVILEGES ON DATABASE vikunja TO vikunja;
 GRANT ALL PRIVILEGES ON DATABASE hedgedoc TO hedgedoc;
 GRANT ALL PRIVILEGES ON DATABASE linkding TO linkding;
 GRANT ALL PRIVILEGES ON DATABASE navidrome TO navidrome;
+GRANT ALL PRIVILEGES ON DATABASE writefreely TO writefreely;
+GRANT ALL PRIVILEGES ON DATABASE flarum TO flarum;
+GRANT ALL PRIVILEGES ON DATABASE freshrss TO freshrss;
 
 -- Connect to each database and grant schema privileges
 \c vikunja;
@@ -39,6 +48,21 @@ GRANT ALL PRIVILEGES ON SCHEMA public TO navidrome;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO navidrome;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO navidrome;
 
+\c writefreely;
+GRANT ALL PRIVILEGES ON SCHEMA public TO writefreely;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO writefreely;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO writefreely;
+
+\c flarum;
+GRANT ALL PRIVILEGES ON SCHEMA public TO flarum;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO flarum;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO flarum;
+
+\c freshrss;
+GRANT ALL PRIVILEGES ON SCHEMA public TO freshrss;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO freshrss;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO freshrss;
+
 -- Connect to homelab database and create initial schema
 \c homelab;
 
@@ -56,7 +80,10 @@ INSERT INTO service_configs (service_name, database_name) VALUES
 ('vikunja', 'vikunja'),
 ('hedgedoc', 'hedgedoc'),
 ('linkding', 'linkding'),
-('navidrome', 'navidrome');
+('navidrome', 'navidrome'),
+('writefreely', 'writefreely'),
+('flarum', 'flarum'),
+('freshrss', 'freshrss');
 
 -- Create backup tracking table
 CREATE TABLE IF NOT EXISTS backup_log (
@@ -107,6 +134,9 @@ GRANT SELECT ON service_status TO vikunja;
 GRANT SELECT ON service_status TO hedgedoc;
 GRANT SELECT ON service_status TO linkding;
 GRANT SELECT ON service_status TO navidrome;
+GRANT SELECT ON service_status TO writefreely;
+GRANT SELECT ON service_status TO flarum;
+GRANT SELECT ON service_status TO freshrss;
 
 -- Create function for logging user activity
 CREATE OR REPLACE FUNCTION log_user_activity(
@@ -126,5 +156,8 @@ GRANT EXECUTE ON FUNCTION log_user_activity TO vikunja;
 GRANT EXECUTE ON FUNCTION log_user_activity TO hedgedoc;
 GRANT EXECUTE ON FUNCTION log_user_activity TO linkding;
 GRANT EXECUTE ON FUNCTION log_user_activity TO navidrome;
+GRANT EXECUTE ON FUNCTION log_user_activity TO writefreely;
+GRANT EXECUTE ON FUNCTION log_user_activity TO flarum;
+GRANT EXECUTE ON FUNCTION log_user_activity TO freshrss;
 
 COMMIT;

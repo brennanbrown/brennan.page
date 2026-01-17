@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   filebrowser:
     image: filebrowser/filebrowser:latest
@@ -10,11 +8,10 @@ services:
     volumes:
       - filebrowser_data:/srv
       - filebrowser_config:/config
+      - filebrowser_database:/database
       - /opt/homelab:/opt/homelab:ro
     environment:
-      - FB_BASEURL=/files
-      - FB_USERNAME=admin
-      - FB_PASSWORD=admin_password
+      - FB_BASE_URL=/files
     networks:
       - caddy
     mem_limit: 50m
@@ -28,6 +25,7 @@ services:
 volumes:
   filebrowser_data:
   filebrowser_config:
+  filebrowser_database:
 
 networks:
   caddy:
