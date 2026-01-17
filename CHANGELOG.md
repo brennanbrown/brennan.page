@@ -5,6 +5,38 @@ All notable changes to brennan.page homelab will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-01-17
+
+### Added
+- **Complete Phase 4 Implementation**: Content and community platform
+- **WriteFreely Blog Platform**: Clean, minimal blogging at blog.brennan.page
+- **Flarum Community Forum**: Modern discussion platform at forum.brennan.page
+- **FreshRSS RSS Reader**: Personal RSS aggregation at rss.brennan.page
+- **MariaDB Database**: Dedicated database for Flarum with optimized configuration
+- **Service Authentication**: Individual authentication systems for all Phase 4 services
+- **Fail2Ban Security**: SSH brute force protection with automatic IP banning
+- **4GB Swap File**: Memory burst capacity for resource-intensive operations
+
+### Changed
+- **Resource Allocation**: Optimized memory usage across all services within 2GB limit
+- **Database Architecture**: Added MariaDB alongside PostgreSQL for service-specific needs
+- **Service Integration**: All Phase 4 services properly integrated with Caddy reverse proxy
+- **Security Posture**: Enhanced SSH protection and monitoring capabilities
+
+### Security
+- **Fail2Ban Protection**: Automated SSH brute force blocking
+- **Network Isolation**: Phase 4 services on appropriate internal networks
+- **Container Security**: Non-root processes and resource limits maintained
+- **Access Control**: Service-specific authentication with proper credential management
+
+### Performance
+- **Memory Usage**: Maintained ~1.3GB usage (65% of 2GB allocation) with 4GB swap available
+- **Response Times**: All services responding under 300ms
+- **Database Optimization**: Both PostgreSQL and MariaDB tuned for multi-service workload
+- **Resource Limits**: Memory limits configured for all new services
+
+---
+
 ## [0.3.0] - 2026-01-16
 
 ### Added
@@ -144,19 +176,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Navidrome (music streaming)
 - Shared PostgreSQL database
 
-### Phase 4 - Content & Community 📋 (PLANNED)
-**Target Date**: 2026-02-06  
-**Status**: Planned  
-
-**Planned Services**:
-- WriteFreely (blog platform)
-- Flarum (community forum)
-- FreshRSS (RSS reader)
-- User authentication system
-
-### Phase 5 - Utilities 📋 (PLANNED)
-**Target Date**: 2026-02-13  
-**Status**: Planned  
+### Phase 5 - Utilities 📋 (NEXT)
+**Target Date**: 2026-01-24  
+**Status**: Next Priority  
 
 **Planned Services**:
 - Plik (file sharing)
@@ -164,7 +186,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Service integrations
 
 ### Phase 6 - Optimization & Maintenance 📋 (PLANNED)
-**Target Date**: 2026-02-20  
+**Target Date**: 2026-02-13  
 **Status**: Planned  
 
 **Planned Tasks**:
