@@ -10,16 +10,31 @@ This guide will help you get familiar with the brennan.page homelab infrastructu
 - **Docker**: For local testing (optional but recommended)
 - **SSH Client**: For server access
 - **Text Editor**: VS Code, micro, or your preferred editor
+- **MkDocs**: For documentation (pip install mkdocs mkdocs-material)
 
 ### Server Access
 
 - SSH key configured for `root@159.203.44.169`
-- Domain `brennan.page` pointing to the server IP
+- Domain `brennan.page` pointing to the server IP (159.203.44.169)
 - Basic understanding of Linux command line
 
 ## Development Workflow
 
-### 1. Local Development
+### 1. Repository Structure
+
+The homelab follows this directory structure according to the spec sheet:
+
+```text
+brennan.page/
+├── caddy/           # Reverse proxy configuration
+├── services/        # Service configurations
+├── scripts/         # Management scripts
+├── wiki/            # Documentation source
+├── docs/            # Project documentation
+└── README.md        # Project overview
+```
+
+### 2. Local Development
 
 All configuration changes are made locally first:
 
@@ -33,9 +48,14 @@ cd brennan.page
 
 # Test configurations locally (when possible)
 docker compose config
+
+# Test wiki locally
+cd wiki
+mkdocs serve
+# Access at http://localhost:8000
 ```
 
-### 2. Version Control
+### 3. Version Control
 
 Commit your changes with descriptive messages:
 
@@ -45,169 +65,245 @@ git commit -m "Add/update service-name: description of changes"
 git push
 ```
 
-### 3. Deployment
+### 4. Deployment
 
 Use the deployment scripts to sync to the server:
 
 ```bash
-# Sync all configurations
+# Deploy specific service
+./scripts/deploy-service.sh service_name
+
+# Deploy all services
 ./scripts/deploy-all.sh
 
-# Or deploy specific service
-./scripts/deploy-service.sh portainer
-```
-
-### 4. Service Management
-
-Manage services on the server:
-
-```bash
-# SSH into server
-ssh -i ~/.omg-lol-keys/id_ed25519 root@159.203.44.169
-
-# Check service status
-docker ps
-
-# View logs
-docker logs portainer
-
-# Restart service
-cd /opt/homelab/services/portainer
-docker compose restart
-```
-
-## First Steps
-
-### 1. Set Up Docker Networks
-
-```bash
-# On the server
-./scripts/setup-networks.sh
-```
-
-### 2. Deploy Caddy (Foundation)
-
-```bash
-# Deploy Caddy configuration
-rsync -avz caddy/ root@159.203.44.169:/opt/homelab/caddy/
-
-# Start Caddy
-ssh root@159.203.44.169 "cd /opt/homelab/caddy && docker compose up -d"
-```
-
-### 3. Deploy Core Services
-
-```bash
-# Deploy Portainer
-./scripts/deploy-service.sh portainer
-
-# Deploy Enhanced Monitor
-./scripts/deploy-service.sh monitor
-
-# Deploy FileBrowser
-./scripts/deploy-service.sh filebrowser
-```
-
-### 4. Deploy Wiki
-
-```bash
-# Build and deploy wiki
+# Deploy wiki
 cd wiki
 ./deploy-wiki.sh
 ```
 
-## Directory Structure
+## Quick Start
 
-```
-brennan.page/
-├── caddy/                    # Reverse proxy configuration
-├── services/                 # Individual service configurations
-│   ├── portainer/
-│   ├── monitor/
-│   └── filebrowser/
-├── wiki/                     # Documentation (MkDocs)
-├── scripts/                  # Deployment and utility scripts
-└── docs/                     # Internal documentation
-```
+### Accessing Services
 
-## Common Commands
+All services are accessible through HTTPS:
 
-### Docker Operations
+| Service | URL | Description |
+|---------|-----|-------------|
+| Main Site | https://brennan.page | Landing page |
+| Wiki | https://wiki.brennan.page | Documentation |
+| Docker Management | https://docker.brennan.page | Portainer |
+| File Management | https://files.brennan.page | FileBrowser |
+| System Monitoring | https://monitor.brennan.page | Custom monitor |
+| Task Management | https://tasks.brennan.page | Vikunja |
+| Notes | https://notes.brennan.page | HedgeDoc |
+| Bookmarks | https://bookmarks.brennan.page | Linkding |
+| Music | https://music.brennan.page | Navidrome |
+| Blog | https://blog.brennan.page | WriteFreely |
+| Forum | https://forum.brennan.page | Flarum |
+| RSS Reader | https://rss.brennan.page | FreshRSS |
 
-```bash
-# List all containers
-docker ps -a
-
-# View resource usage
-docker stats
-
-# View logs
-docker logs <container_name>
-
-# Restart service
-docker compose restart
-```
-
-### File Operations
+### SSH Access
 
 ```bash
-# Sync files to server
-rsync -avz --exclude '.git' ./ root@159.203.44.169:/opt/homelab/
+# Connect to server
+ssh -i ~/.omg-lol-keys/id_ed25519 root@159.203.44.169
 
-# Download files from server
-scp -r root@159.203.44.169:/opt/homelab/backups/ ./
-```
-
-### System Monitoring
-
-```bash
-# Check system resources
+# Quick status check
+docker ps
 free -h
 df -h
-htop
-
-# Check service status
-systemctl status docker
-ufw status
 ```
+
+## Common Tasks
+
+### Adding a New Service
+
+1. **Create Service Directory:**
+   ```bash
+   mkdir -p services/newservice
+   cd services/newservice
+   ```
+
+2. **Create Docker Compose:**
+   ```yaml
+   version: '3.8'
+   services:
+     newservice:
+       image: image:tag
+       container_name: newservice
+       restart: unless-stopped
+       # ... configuration
+   ```
+
+3. **Create Documentation:**
+   ```bash
+   # Add service documentation
+   vi wiki/docs/services/newservice.md
+   ```
+
+4. **Update Navigation:**
+   ```bash
+   # Update wiki/docs/services/index.md
+   # Update wiki/mkdocs.yml
+   ```
+
+5. **Deploy:**
+   ```bash
+   ./scripts/deploy-service.sh newservice
+   ```
+
+### Updating Documentation
+
+1. **Local Development:**
+   ```bash
+   cd wiki
+   mkdocs serve
+   ```
+
+2. **Edit Files:**
+   - Update markdown files in `docs/`
+   - Test changes locally
+
+3. **Deploy:**
+   ```bash
+   mkdocs build --clean
+   rsync -avz --delete site/ root@159.203.44.169:/opt/homelab/wiki/
+   ```
+
+### Monitoring Services
+
+```bash
+# Check all services
+docker ps
+
+# Check resource usage
+docker stats
+
+# Check service logs
+docker logs service_name
+
+# Health check script
+./scripts/health-check.sh
+```
+
+## Service Categories
+
+### Infrastructure Services
+- **Caddy**: Reverse proxy with automatic HTTPS
+- **PostgreSQL**: Primary database server
+- **MariaDB**: Database for Flarum forum
+
+### Management Services
+- **Portainer**: Docker management interface
+- **FileBrowser**: File management interface
+- **Monitor**: System monitoring dashboard
+
+### Productivity Services
+- **Vikunja**: Task management system
+- **HedgeDoc**: Collaborative markdown notes
+- **Linkding**: Bookmark manager
+- **Navidrome**: Music streaming server
+
+### Content & Community Services
+- **WriteFreely**: Blog platform
+- **Flarum**: Community forum
+- **FreshRSS**: RSS feed aggregator
+
+## Security
+
+### SSH Access
+- Key-based authentication only
+- No password authentication
+- Regular key rotation recommended
+
+### Web Services
+- All services use HTTPS
+- Automatic SSL certificate management
+- Security headers configured
+
+### Database Security
+- Isolated database users
+- Encrypted connections
+- Regular backups
 
 ## Troubleshooting
 
-### Service Won't Start
+### Common Issues
 
-1. Check logs: `docker logs <service>`
-2. Verify configuration: `docker compose config`
-3. Check resource usage: `docker stats`
-4. Verify ports: `netstat -tulpn | grep <port>`
+**Service Not Accessible:**
+```bash
+# Check Caddy configuration
+docker exec caddy caddy reload
 
-### Can't Access Service
+# Check service status
+docker ps | grep service_name
 
-1. Check Caddy logs: `docker logs caddy`
-2. Verify DNS resolution
-3. Check firewall rules: `ufw status`
-4. Test locally: `curl -I http://localhost:<port>`
+# Check service logs
+docker logs service_name --tail 50
+```
 
-### Out of Memory
+**Wiki Not Updating:**
+```bash
+# Check wiki build
+cd /opt/homelab/wiki
+mkdocs build --clean
 
-1. Check memory usage: `free -h`
-2. Identify heavy containers: `docker stats`
-3. Restart heavy services
-4. Verify swap is active: `swapon -s`
+# Check Caddy wiki configuration
+grep -A 5 'wiki.brennan.page' /opt/homelab/caddy/Caddyfile
+```
+
+**Database Connection Issues:**
+```bash
+# Check database status
+docker exec postgresql pg_isready
+docker exec flarum_mariadb mysqladmin ping
+
+# Test connection
+docker exec postgresql psql -U user -d database -c "SELECT 1;"
+```
+
+### Getting Help
+
+1. **Check Documentation**: Start with the wiki
+2. **Review Logs**: Use `docker logs` for service-specific issues
+3. **Check Status**: Visit monitoring dashboard
+4. **SSH Reference**: See [SSH Commands](../reference/ssh-commands.md)
+
+## Resources
+
+### Documentation
+- **[Services](../services/)**: Detailed service documentation
+- **[Operations](../operations/)**: Operational procedures
+- **[Troubleshooting](../troubleshooting/)**: Common issues and solutions
+- **[Reference](../reference/)**: Command references
+
+### Scripts
+- **deploy-service.sh**: Deploy individual services
+- **deploy-all.sh**: Deploy all services
+- **health-check.sh**: System health monitoring
+- **backup.sh**: Backup procedures
+
+### Configuration Files
+- **caddy/Caddyfile**: Reverse proxy configuration
+- **services/**: Service-specific configurations
+- **wiki/mkdocs.yml**: Documentation configuration
 
 ## Next Steps
 
-1. Read the [Architecture Overview](home/architecture.md)
-2. Review [Service Documentation](services/)
-3. Check [Deployment Procedures](deployments/)
-4. Set up [Monitoring](operations/daily-checks.md)
+1. **Explore Services**: Visit the various services to understand functionality
+2. **Review Documentation**: Read service-specific documentation
+3. **Test Deployments**: Try deploying a simple change
+4. **Monitor System**: Check the monitoring dashboard regularly
+5. **Contribute**: Add improvements or report issues
 
-## Getting Help
+## Support
 
-- **Documentation**: This wiki is your primary resource
-- **Service Logs**: Check Docker logs for service-specific issues
-- **System Status**: Visit `monitor.brennan.page` for real-time stats
-- **SSH Reference**: See [SSH Commands](reference/ssh-commands.md)
+For questions or issues:
+1. Check the wiki documentation first
+2. Review service logs for errors
+3. Use the troubleshooting guides
+4. Check the [SSH Commands](../reference/ssh-commands.md) reference
 
 ---
 
-*Remember: Always test locally before deploying to production!*
+*Last updated: {{ git_revision_date_localized }}*

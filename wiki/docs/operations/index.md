@@ -42,6 +42,9 @@ The homelab requires regular maintenance to ensure optimal performance, security
 
 ## Operational Procedures
 
+### [Wiki Management](wiki-management.md)
+Wiki deployment, maintenance, and content management procedures.
+
 ### [Deployment](deployment.md)
 Service deployment and update procedures.
 

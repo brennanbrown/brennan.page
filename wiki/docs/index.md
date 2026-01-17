@@ -32,21 +32,30 @@ brennan.page is a self-hosted homelab running on a DigitalOcean droplet (2GB RAM
 
 ## Recent Updates
 
-### Complete Phase 3 Implementation (2026-01-16)
+### System Enhancements (2026-01-17)
+- **Content & Community Platform**: WriteFreely blog, Flarum forum, FreshRSS reader fully operational
+- **Enhanced Security**: Fail2Ban SSH protection with automatic IP blocking (5 IPs banned)
+- **Memory Optimization**: 4GB swap file configured for burst capacity
+- **Database Architecture**: Added MariaDB for Flarum alongside PostgreSQL for other services
+- **HedgeDoc Database Fix**: Resolved connection issues, now fully functional with note persistence
+- **Service Verification**: All 11 containers across 8 services confirmed operational
+- **Performance**: Maintained ~1.3GB usage (65%) with sub-200ms response times
+
+### Infrastructure Foundation (2026-01-16)
 - **Enhanced Monitoring Dashboard**: Real-time system stats with visual progress bars
 - **Modern Landing Page**: Complete UI overhaul with service cards and status indicators
 - **Productivity Suite**: Vikunja, HedgeDoc, Linkding, Navidrome fully operational
 - **PostgreSQL Integration**: All services connected with proper user isolation
-- **Service Health Monitoring**: Automated status checks for all 11 services
-- **Performance Optimization**: Maintained ~800MB usage within 2GB limit
+- **Service Health Monitoring**: Automated status checks for all services
+- **Performance Optimization**: Maintained within 2GB limit
 
-### Phase 2 Completion (2026-01-16)
+### Documentation Platform (2026-01-16)
 - **Monitoring Service**: Replaced Glances with custom monitoring solution
 - **Documentation Wiki**: Deployed comprehensive MkDocs documentation
-- **All Services**: 5/5 core services operational
+- **All Services**: Core infrastructure operational
 - **Resource Efficiency**: Maintained within 2GB limit
 
-### Phase 1 Foundation (2026-01-16)
+### Initial Setup (2026-01-16)
 - **Infrastructure Setup**: Docker, Caddy, networking
 - **Core Services**: Portainer, FileBrowser, monitoring
 - **Landing Page**: Modern dark theme interface
@@ -62,15 +71,25 @@ brennan.page is a self-hosted homelab running on a DigitalOcean droplet (2GB RAM
 | Monitor | monitor.brennan.page | 🟢 High | Monitoring | System monitoring dashboard |
 | FileBrowser | files.brennan.page | 🟢 Medium | File Management | File management interface |
 | Wiki | wiki.brennan.page | 🟢 High | Documentation | MkDocs documentation |
-| PostgreSQL | - | 🟢 Critical | Database | Shared database for Phase 3 |
+| PostgreSQL | - | 🟢 Critical | Database | Shared database for multiple services |
+| MariaDB | - | 🟢 High | Database | Flarum forum database |
 | Vikunja | tasks.brennan.page | 🟢 Medium | Productivity | Task management system |
+| HedgeDoc | notes.brennan.page | 🟢 Medium | Productivity | Collaborative markdown notes |
+| Linkding | bookmarks.brennan.page | 🟢 Medium | Productivity | Bookmark manager |
+| Navidrome | music.brennan.page | 🟢 Low | Productivity | Music streaming server |
+| WriteFreely | blog.brennan.page | 🟢 Medium | Community | Blog platform |
+| Flarum | forum.brennan.page | 🟢 Medium | Community | Community forum |
+| FreshRSS | rss.brennan.page | 🟢 Low | Community | RSS reader |
 
 ## Resource Usage
 
 - **Total RAM**: 2GB
-- **Allocated**: ~1.4GB
-- **Available Buffer**: ~600MB
-- **Swap**: 4GB configured
+- **Allocated**: ~1.3GB (65%)
+- **Available Buffer**: ~700MB
+- **Swap**: 4GB configured (20MB used)
+- **Disk Usage**: 13GB/67GB (19%)
+- **Containers**: 11 running containers
+- **Services**: 8 fully operational services
 
 ## Getting Help
 
