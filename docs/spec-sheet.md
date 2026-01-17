@@ -7,7 +7,7 @@
 **Domain**: `brennan.page`
 **Server**: 2 GB Memory / 1 Intel vCPU / 70 GB Disk / TOR1 – Ubuntu 24.04 (LTS) x64
 **Budget**: $200/year ($16/month)
-**Management**: Local development + SSH deployment via AI-assisted coding (Windsurf / IDE-based AI)
+**Management**: Local development + SSH deployment
 
 **Key Change (v1.1)**
 
@@ -725,8 +725,6 @@ mkdocs build
 
 rsync -avz --delete "${SITE_DIR}/" "${REMOTE}:${REMOTE_DIR}/"
 ```
-
-Codify in your practice/spec: AI should only deploy via this script and not invent ad-hoc rsync commands.
 
 ---
 

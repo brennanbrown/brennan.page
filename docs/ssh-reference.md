@@ -1,4 +1,4 @@
-# SSH Command Reference for AI-Assisted Development
+# SSH Command Reference
 
 ## Connection Information
 - **Host**: 159.203.44.169
@@ -151,7 +151,6 @@ scp -i ~/.omg-lol-keys/id_ed25519 root@159.203.44.169:/etc/caddy/Caddyfile ./Cad
 
 # 2. Edit locally (AI can read/write this)
 micro ./Caddyfile
-# OR: AI directly modifies the file content
 
 # 3. Upload back
 scp -i ~/.omg-lol-keys/id_ed25519 ./Caddyfile root@159.203.44.169:/etc/caddy/Caddyfile
