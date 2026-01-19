@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  kiwix:
+    build:
+      context: .
+      dockerfile: Dockerfile.with-nginx
+    container_name: kiwix
+    ports:
+      - '8082:8080'
+    volumes:
+      - ./zims:/zims:ro
+      - ./data:/data
+      - ./www:/var/www/html:ro
+    networks:
+      - caddy
+    restart: unless-stopped
+    environment:
+      - ZIMDIR=/zims
+    labels:
+      - "caddy=http://archive.brennan.page"
+      - "caddy.reverse_proxy={{upstreams 8080}}"
+
+networks:
+  caddy:
+    external: true

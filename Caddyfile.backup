@@ -1,0 +1,179 @@
+{
+    # Global options
+    admin off
+    log {
+        output file /var/log/caddy/access.log
+        format console
+    }
+}
+
+# Compression snippet for reuse
+(compression) {
+    encode gzip zstd
+}
+
+# Security headers
+(security) {
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+}
+
+# Root domain - landing page
+brennan.page {
+    import compression
+    import security
+    
+    root * /var/www/brennan.page
+    file_server
+    handle_errors {
+        respond "Error 404: Page not found" 404
+    }
+}
+
+# Unified wiki and docs
+wiki.brennan.page {
+    import compression
+    import security
+    
+    root * /opt/homelab/wiki
+    file_server
+    handle_errors {
+        respond "Error 404: Wiki page not found" 404
+    }
+}
+
+# Docker management UI
+docker.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy portainer:9000
+    handle_errors {
+        respond "Docker management unavailable" 503
+    }
+}
+
+# System monitoring
+monitor.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy monitor:80
+    handle_errors {
+        respond "Monitoring service unavailable" 503
+    }
+}
+
+# File management
+files.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy filebrowser:80
+    handle_errors {
+        respond "File browser unavailable" 503
+    }
+}
+
+# Task management
+tasks.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy vikunja:3456
+    handle_errors {
+        respond "Task management service unavailable" 503
+    }
+}
+
+# Collaborative notes
+notes.brennan.page {
+    import compression
+    import security
+    
+reverse_proxy hedgedoc:3000
+    handle_errors {
+        respond "Notes service unavailable" 503
+    }
+}
+
+# Bookmark manager
+bookmarks.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy linkding:9090
+    handle_errors {
+        respond "Bookmark service unavailable" 503
+    }
+}
+
+# Music streaming
+music.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy navidrome:4533
+    handle_errors {
+        respond "Music service unavailable" 503
+    }
+}
+
+# Blog platform
+blog.brennan.page {
+    import compression
+    import security
+    
+reverse_proxy writefreely:8080
+    handle_errors {
+        respond "Blog service unavailable" 503
+    }
+}
+
+# Forum platform
+forum.brennan.page {
+    import compression
+    import security
+    
+reverse_proxy flarum:8888
+    handle_errors {
+        respond "Forum service unavailable" 503
+    }
+}
+
+# RSS reader
+rss.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy freshrss:80
+    handle_errors {
+        respond "RSS service unavailable" 503
+    }
+}
+
+# Archive service (Kiwix)
+archive.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy kiwix_simple:8080
+    handle_errors {
+        respond "Archive service unavailable" 503
+    }
+}
+
+# File sharing (future)
+share.brennan.page {
+    import compression
+    import security
+    
+    reverse_proxy plik:8080
+    handle_errors {
+        respond "File sharing unavailable" 503
+    }
+}

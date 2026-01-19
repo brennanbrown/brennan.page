@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiwix Archive Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        
+        .category {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .category h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .archives {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .archive-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .archive-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .archive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .archive-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .archive-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-view {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-view:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        .btn-download {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .archives {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+            
+            .stat {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 Kiwix Archive Library</h1>
+            <p>Offline access to essential knowledge and educational resources</p>
+        </header>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">47</div>
+                <div class="stat-label">Total Archives</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Available</div>
+            </div>
+        </div>
+        
+        
+        <div class="category">
+            <h2>Education (4)</h2>
+            <div class="archives">
+                
+                <div class="archive-card">
+                    <div class="archive-title">TED Talks</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#ted_mul_life_2025-10" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/ted_mul_life_2025-10.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">TED Talks</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#ted_mul_ideas_2025-10" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/ted_mul_ideas_2025-10.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">freeCodeCamp</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#freecodecamp_en_all_2025-11" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/freecodecamp_en_all_2025-11.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">freeCodeCamp</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#freecodecamp_en_project-euler_2025-11" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/freecodecamp_en_project-euler_2025-11.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category">
+            <h2>Encyclopedias (5)</h2>
+            <div class="archives">
+                
+                <div class="archive-card">
+                    <div class="archive-title">Citizendium</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#citizendium.org_en_all_maxi_2025-10" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/citizendium.org_en_all_maxi_2025-10.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Project Gutenberg</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#gutenberg_en_lcc-l_2025-12" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/gutenberg_en_lcc-l_2025-12.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Project Gutenberg</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#gutenberg_en_lcc-a_2025-12" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/gutenberg_en_lcc-a_2025-12.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Project Gutenberg</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#gutenberg_en_lcc-pn_2025-12" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/gutenberg_en_lcc-pn_2025-12.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Wikipedia</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#wikipedia_en_wp1-0.8_nopic_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/wikipedia_en_wp1-0.8_nopic_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category">
+            <h2>General Knowledge (6)</h2>
+            <div class="archives">
+                
+                <div class="archive-card">
+                    <div class="archive-title">Arch Linux Wiki</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#archlinux_en_all_maxi_2025-09" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/archlinux_en_all_maxi_2025-09.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Financial Wiki</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#finiki_en_all_maxi_2024-06" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/finiki_en_all_maxi_2024-06.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Internet Encyclopedia of Philosophy</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#internet-encyclopedia-philosophy_en_all_2025-11" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/internet-encyclopedia-philosophy_en_all_2025-11.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">LibreTexts</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#libretexts.org_en_human_2025-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/libretexts.org_en_human_2025-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Urban Prepper</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#urban-prepper_en_all_2025-11" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/urban-prepper_en_all_2025-11.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">WikiTech</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#wikitech_en_all_maxi_2024-06" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/wikitech_en_all_maxi_2024-06.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category">
+            <h2>Medical (3)</h2>
+            <div class="archives">
+                
+                <div class="archive-card">
+                    <div class="archive-title">MedlinePlus</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#medlineplus.gov_en_all_2025-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/medlineplus.gov_en_all_2025-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Military Medicine</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#fas-military-medicine_en_2025-06" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/fas-military-medicine_en_2025-06.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Quick Medical Guides</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#quickguidesformedicine_en_all_2025-12" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/quickguidesformedicine_en_all_2025-12.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category">
+            <h2>Technical Documentation (27)</h2>
+            <div class="archives">
+                
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_cpp_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_cpp_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_latex_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_latex_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_wordpress_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_wordpress_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_haskell_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_haskell_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_lua_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_lua_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_numpy_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_numpy_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_ruby_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_ruby_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_bash_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_bash_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_docker_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_docker_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_javascript_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_javascript_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_pygame_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_pygame_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_c_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_c_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_css_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_css_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_homebrew_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_homebrew_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_html_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_html_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_i3_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_i3_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_npm_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_npm_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_postgresql_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_postgresql_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_python_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_python_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_django_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_django_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_git_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_git_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_jekyll_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_jekyll_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_tailwindcss_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_tailwindcss_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_node_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_node_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">DevDocs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#devdocs_en_gnu-make_2026-01" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/devdocs_en_gnu-make_2026-01.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">PHP Documentation</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#php.net_en_all_2024-08" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/php.net_en_all_2024-08.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Python Docs</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#docs.python.org_en_2025-09" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/docs.python.org_en_2025-09.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category">
+            <h2>Tools & Utilities (2)</h2>
+            <div class="archives">
+                
+                <div class="archive-card">
+                    <div class="archive-title">OpenStreetMap Wiki</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#openstreetmap-wiki_en_all_maxi_2025-07" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/openstreetmap-wiki_en_all_maxi_2025-07.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="archive-card">
+                    <div class="archive-title">Termux Wiki</div>
+                    <div class="archive-links">
+                        <a href="https://browse.library.kiwix.org/viewer#termux_en_all_maxi_2022-12" class="btn btn-view" target="_blank">📖 View</a>
+                        <a href="https://download.kiwix.org/zim/zimit/termux_en_all_maxi_2022-12.zim" class="btn btn-download" target="_blank">⬇️ Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>Powered by Kiwix | Part of brennan.page Homelab</p>
+        </footer>
+    </div>
+</body>
+</html>

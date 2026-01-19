@@ -1,0 +1,28 @@
+FROM ubuntu:24.04
+
+ENV TGTDIR=/usr/local/bin
+
+# Install system dependencies
+RUN env LANG=C LC_ALL=C apt update
+RUN env DEBIAN_FRONTEND=noninteractive LANG=C LC_ALL=C apt-get -y full-upgrade
+RUN env DEBIAN_FRONTEND=noninteractive LANG=C LC_ALL=C apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install wget curl nginx
+
+VOLUME /zims
+VOLUME /data
+
+# Install Kiwix tools
+COPY ./scripts/*.sh $TGTDIR/
+RUN chmod +x $TGTDIR/*.sh
+RUN provision.sh
+
+# Copy nginx configuration and homepage
+COPY nginx.conf /etc/nginx/sites-available/default
+COPY www/ /var/www/html/
+
+# Create startup script
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+EXPOSE 8080
+
+CMD ["/usr/local/bin/start.sh"]

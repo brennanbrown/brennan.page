@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.5
+    container_name: meilisearch
+    ports:
+      - '7700:7700'
+    volumes:
+      - ./meilisearch_data:/meili_data
+    environment:
+      - MEILI_MASTER_KEY=your-secret-master-key
+      - MEILI_ENV=development
+    networks:
+      - caddy
+    restart: unless-stopped
+    labels:
+      - "caddy=http://search.brennan.page"
+      - "caddy.reverse_proxy={{upstreams 7700}}"
+
+  indexer:
+    build: 
+      context: .
+      dockerfile: Dockerfile.indexer
+    container_name: archive_indexer
+    volumes:
+      - ./data:/data:ro
+      - ./zims:/zims:ro
+    environment:
+      - MEILI_MASTER_KEY=your-secret-master-key
+      - MEILI_URL=http://meilisearch:7700
+    networks:
+      - caddy
+    depends_on:
+      - meilisearch
+
+networks:
+  caddy:
+    external: true

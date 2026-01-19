@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install meilisearch beautifulsoup4 lxml
+
+WORKDIR /app
+
+COPY scripts/index_content.py /usr/local/bin/index_content.py
+RUN chmod +x /usr/local/bin/index_content.py
+
+CMD ["python", "/usr/local/bin/index_content.py"]
