@@ -6,7 +6,7 @@ services:
     container_name: vikunja
     restart: unless-stopped
     environment:
-      - VIKUNJA_DATABASE_HOST=postgresql
+      - VIKUNJA_DATABASE_HOST=postgres
       - VIKUNJA_DATABASE_TYPE=postgres
       - VIKUNJA_DATABASE_USER=vikunja
       - VIKUNJA_DATABASE_PASSWORD=vikunja_password

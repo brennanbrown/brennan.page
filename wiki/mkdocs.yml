@@ -105,6 +105,14 @@ nav:
     - Getting Started: home/getting-started.md
   - About:
     - about/index.md
+    - Project Specification: about/spec-sheet.md
+  - Infrastructure:
+    - infrastructure/index.md
+    - Basic Server Information: infrastructure/basic-info.md
+    - Docker: infrastructure/docker.md
+    - Networking: infrastructure/networking.md
+    - Security: infrastructure/security.md
+    - Storage: infrastructure/storage.md
   - Services:
     - services/index.md
     - Services Home: services/home.md
