@@ -149,6 +149,7 @@ nav:
   - Troubleshooting:
     - troubleshooting/index.md
     - Common Issues: troubleshooting/common-issues.md
+    - SSL Certificate Issues: troubleshooting/ssl-issues.md
     - Database Issues: troubleshooting/database-issues.md
     - Network Issues: troubleshooting/network-issues.md
     - Performance Issues: troubleshooting/performance-issues.md

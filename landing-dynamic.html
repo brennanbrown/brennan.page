@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>brennan.page - Homelab Infrastructure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .service-card {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-2px);
+            border-color: #ff6b35;
+        }
+        
+        .service-name {
+            font-size: 1.1rem;
+            color: #ff6b35;
+            margin-bottom: 0.3rem;
+        }
+        
+        .service-url {
+            color: #4a9eff;
+            text-decoration: none;
+            margin-bottom: 0.3rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+        
+        .service-url:hover {
+            text-decoration: underline;
+        }
+        
+        .service-description {
+            color: #888;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status.online {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .status.offline {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .status.checking {
+            background: #f39c12;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .system-info {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .system-info h2 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+        
+        .system-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            color: #4a9eff;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            border-top: 1px solid #444;
+            padding-top: 2rem;
+        }
+        
+        a {
+            color: #4a9eff;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>brennan.page</h1>
+            <div class="subtitle">Self-hosted homelab infrastructure</div>
+        </header>
+        
+        <div class="system-info">
+            <h2>System Status</h2>
+            <div class="system-stats">
+                <div class="stat">
+                    <div class="stat-value">2GB</div>
+                    <div class="stat-label">Total RAM</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="used-ram">900MB</div>
+                    <div class="stat-label">Used RAM</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">70GB</div>
+                    <div class="stat-label">Storage</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="service-count">11</div>
+                    <div class="stat-label">Services</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-grid" id="service-status">
+            <div class="service-card" data-service="docker">
+                <div class="service-name">🐋 Portainer</div>
+                <a href="https://docker.brennan.page" class="service-url" target="_blank">docker.brennan.page</a>
+                <div class="service-description">Docker management interface</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="monitor">
+                <div class="service-name">📊 Monitor</div>
+                <a href="https://monitor.brennan.page" class="service-url" target="_blank">monitor.brennan.page</a>
+                <div class="service-description">System monitoring dashboard</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="files">
+                <div class="service-name">📁 Files</div>
+                <a href="https://files.brennan.page" class="service-url" target="_blank">files.brennan.page</a>
+                <div class="service-description">File management interface</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="tasks">
+                <div class="service-name">✅ Tasks</div>
+                <a href="https://tasks.brennan.page" class="service-url" target="_blank">tasks.brennan.page</a>
+                <div class="service-description">Task management system</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="notes">
+                <div class="service-name">📝 Notes</div>
+                <a href="https://notes.brennan.page" class="service-url" target="_blank">notes.brennan.page</a>
+                <div class="service-description">Collaborative markdown notes</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="bookmarks">
+                <div class="service-name">🔖 Bookmarks</div>
+                <a href="https://bookmarks.brennan.page" class="service-url" target="_blank">bookmarks.brennan.page</a>
+                <div class="service-description">Bookmark manager</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="music">
+                <div class="service-name">🎵 Music</div>
+                <a href="https://music.brennan.page" class="service-url" target="_blank">music.brennan.page</a>
+                <div class="service-description">Music streaming service</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="blog">
+                <div class="service-name">✍️ Blog</div>
+                <a href="https://blog.brennan.page" class="service-url" target="_blank">blog.brennan.page</a>
+                <div class="service-description">Minimalist blogging platform</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="forum">
+                <div class="service-name">💬 Forum</div>
+                <a href="https://forum.brennan.page" class="service-url" target="_blank">forum.brennan.page</a>
+                <div class="service-description">Community discussion forum</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+            
+            <div class="service-card" data-service="rss">
+                <div class="service-name">📰 RSS</div>
+                <a href="https://rss.brennan.page" class="service-url" target="_blank">rss.brennan.page</a>
+                <div class="service-description">RSS feed aggregator</div>
+                <div class="status checking">CHECKING...</div>
+            </div>
+        </div>
+        
+        <div class="last-updated" id="last-updated">Checking services...</div>
+        
+        <footer>
+            <p>Powered by <a href="https://caddyserver.com" target="_blank">Caddy</a> • 
+               Built with <a href="https://www.docker.com" target="_blank">Docker</a> • 
+               Managed via <a href="https://github.com/brennanbrown/brennan.page" target="_blank">Git</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Service configuration
+        const services = {
+            docker: 'https://docker.brennan.page',
+            monitor: 'https://monitor.brennan.page',
+            files: 'https://files.brennan.page',
+            tasks: 'https://tasks.brennan.page',
+            notes: 'https://notes.brennan.page',
+            bookmarks: 'https://bookmarks.brennan.page',
+            music: 'https://music.brennan.page',
+            blog: 'https://blog.brennan.page',
+            forum: 'https://forum.brennan.page',
+            rss: 'https://rss.brennan.page'
+        };
+
+        // Check service status
+        async function checkServiceStatus(url) {
+            try {
+                const response = await fetch(url, { 
+                    method: 'HEAD',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    signal: AbortSignal.timeout(5000)
+                });
+                return 'online';
+            } catch (error) {
+                return 'offline';
+            }
+        }
+
+        // Update service status
+        async function updateServiceStatus(serviceKey, serviceUrl) {
+            const card = document.querySelector(`[data-service="${serviceKey}"]`);
+            const statusElement = card.querySelector('.status');
+            
+            statusElement.className = 'status checking';
+            statusElement.textContent = 'CHECKING...';
+            
+            const status = await checkServiceStatus(serviceUrl);
+            
+            statusElement.className = `status ${status}`;
+            statusElement.textContent = status.toUpperCase();
+            
+            return status;
+        }
+
+        // Update all services
+        async function updateAllServices() {
+            const promises = [];
+            
+            for (const [key, url] of Object.entries(services)) {
+                promises.push(updateServiceStatus(key, url));
+            }
+            
+            const results = await Promise.all(promises);
+            const onlineCount = results.filter(status => status === 'online').length;
+            
+            // Update service count
+            document.getElementById('service-count').textContent = onlineCount;
+            
+            // Update last checked time
+            document.getElementById('last-updated').textContent = 
+                `Last updated: ${new Date().toLocaleString()} (${onlineCount}/${results.length} services online)`;
+        }
+
+        // Initial check on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAllServices();
+            
+            // Update every 30 seconds
+            setInterval(updateAllServices, 30000);
+        });
+    </script>
+</body>
+</html>

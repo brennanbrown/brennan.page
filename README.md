@@ -93,6 +93,20 @@ homelab/
 3. Configure SSH access to the server (see `docs/ssh-reference.md`)
 4. Begin with Phase 1: Foundation services (Caddy, Docker, Portainer)
 
+### SSL Certificate Monitoring
+
+Use the SSL health check script to monitor certificate status and prevent issues:
+
+```bash
+# Run SSL health check
+./scripts/ssl-health-check.sh
+
+# Or run directly on server
+ssh -i ~/.omg-lol-keys/id_ed25519 -T -o BatchMode=yes root@159.203.44.169 "/opt/homelab/scripts/ssl-health-check.sh"
+```
+
+For troubleshooting SSL issues, see: https://wiki.brennan.page/troubleshooting/ssl-issues/
+
 ### Phase-Based Deployment
 
 **Phase 1**: Core Infrastructure (Caddy, Docker, Portainer)
